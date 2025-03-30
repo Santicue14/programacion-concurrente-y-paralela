@@ -1,4 +1,3 @@
-```markdown
 # Fundamentación
 
 La asignatura **Optativa 1** se ubica en el primer cuatrimestre del cuarto año según el plan vigente, además no tiene correlativa.
@@ -10,4 +9,3 @@ En este contexto, se desarrollarán los principales conceptos de la **programaci
 El impacto de la concurrencia se refleja en diferentes ámbitos de la disciplina, tales como **las arquitecturas, los sistemas operativos, los lenguajes y el diseño y desarrollo de aplicaciones**. Por este motivo, se requiere que el estudiante cuente con un bagaje de conocimientos adquiridos en las materias predecesoras para poder aplicarlo.
 
 A partir del conocimiento adquirido, los futuros profesionales serán capaces de desarrollar **soluciones que utilicen adecuadamente la tecnología disponible y hacer un uso eficiente de la misma, con fundamentos teóricos firmes**.
-```
