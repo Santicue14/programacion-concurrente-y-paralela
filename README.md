@@ -28,7 +28,7 @@ A partir del conocimiento adquirido, los futuros profesionales serán capaces de
 | 23/05/2025  | 10  | UNIDAD 3. ESTRUCTURAS PARALELAS Y PARALELISMO DE DATOS       |
 | 30/05/2025  | 11  | UNIDAD 4. DISEÑO DE PATRONES PARA PROGRAMACIÓN CONCURRENTE (💻 virtual) |
 | 06/06/2025  | 12  | UNIDAD 4. DISEÑO DE PATRONES PARA PROGRAMACIÓN CONCURRENTE   |
-| 13/06/2025  | 13  | Exámenes recuperatorios + Cierre de materia                 |
+| 13/06/2025  | 13  | Exámenes recuperatorios + Cierre de materia (💻 virtual) |
 | 20/06/2025  | 14  | FERIADO NACIONAL (📅 feriado)                                |
 | 27/06/2025  | 15  | ASUETO GREMIAL (📅 feriado)                                  |
 
