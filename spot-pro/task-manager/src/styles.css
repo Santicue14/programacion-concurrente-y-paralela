@@ -1,0 +1,15 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Estilos para el modal */
+#taskFormModal {
+  max-width: 600px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+.fancybox-content {
+  padding: 30px;
+  background: #f4f4f4;
+  border-radius: 8px;
+}

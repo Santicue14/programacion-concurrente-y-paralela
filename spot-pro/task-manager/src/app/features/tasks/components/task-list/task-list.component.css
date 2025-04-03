@@ -1,0 +1,73 @@
+/* task-list.component.css */
+
+/* Contenedor principal */
+.task-list-container {
+  margin: 20px auto;
+  
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #dee2e6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Título */
+.task-list-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #343a40;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Tabla de tareas */
+.task-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.task-table th,
+.task-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.task-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+  color: #495057;
+}
+
+.task-table td {
+  color: #6c757d;
+}
+
+/* Acciones */
+.task-actions button {
+  margin-right: 5px;
+}
+
+.task-actions .btn-edit {
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+}
+
+.task-actions .btn-delete {
+  color: #ffffff;
+  background-color: #dc3545;
+  border: none;
+}
+
+.task-actions .btn:hover {
+  opacity: 0.9;
+}
+
+/* Mensaje vacío */
+.no-tasks-message {
+  text-align: center;
+  font-size: 16px;
+  color: #6c757d;
+  margin-top: 20px;
+}
