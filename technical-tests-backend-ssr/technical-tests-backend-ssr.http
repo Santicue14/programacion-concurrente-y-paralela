@@ -1,0 +1,6 @@
+@technical_tests_backend_ssr_HostAddress = http://localhost:5156
+
+GET {{technical_tests_backend_ssr_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
