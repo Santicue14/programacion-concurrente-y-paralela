@@ -1,0 +1,122 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35728.132
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "01 - TwoTasks", "01 - TwoTasks", "{60A2957B-7B32-4C58-9EB2-6FF09C06B4E9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "02 - TwoTask_WaitAny", "02 - TwoTask_WaitAny", "{6FDA4F38-5A38-4C42-A702-DF265229BAD1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "03 - IntegerTask", "03 - IntegerTask", "{89E9686C-C002-467F-969B-D3C26945BD3A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 - DivideByZero", "04 - DivideByZero", "{939E98B1-26E5-4766-A43F-5CCF5AE2540D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 - MultipleExceptions", "05 - MultipleExceptions", "{BE62E922-5612-4678-992A-357D8EFF7888}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "06 - HandleException", "06 - HandleException", "{EEBBC55F-3F8A-49C1-83B2-B1B8F80A16B7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "07 - SortParallel", "07 - SortParallel", "{DE59B59A-EF0F-47B9-81B5-3EF97AF24ABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "08 - Cancellation", "08 - Cancellation", "{CE4D3BD8-F650-40B0-9246-698D5A757B01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "09 - ContinuationResult", "09 - ContinuationResult", "{D03A64CE-741A-42CF-9284-676D5D2F0532}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "10 - ContinueWhenAll", "10 - ContinueWhenAll", "{6648F38E-0F41-4989-B16C-B97934119BAF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoTasks", "TwoTasks\TwoTasks\TwoTasks.csproj", "{92FE7EF1-AE17-4320-8120-8188E7F52D2F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TwoTask_WaitAny", "TwoTask_WaitAny\TwoTask_WaitAny\TwoTask_WaitAny.csproj", "{8060595B-1875-4CAA-A09A-6560677CF8BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegerTask", "IntegerTask\IntegerTask\IntegerTask.csproj", "{5CD453D1-2DC0-4690-B938-FDBF3533EA37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DivideByZero", "DivideByZero\DivideByZero\DivideByZero.csproj", "{02A0A2C0-442B-4C5D-8A21-50188C69B05B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultipleExceptions", "MultipleExceptions\MultipleExceptions\MultipleExceptions.csproj", "{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandleException", "HandleException\HandleException\HandleException.csproj", "{BEA42E37-8551-4330-A56D-979BEFCE0DCF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SortParallel", "SortParallel\SortParallel\SortParallel.csproj", "{06497E34-5987-4C6C-A6B3-DE00DD890964}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cancellation", "Cancellation\Cancellation\Cancellation.csproj", "{83E7A4C6-0B4A-476D-BA15-9772142DFF07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContinuationResult", "ContinuationResult\ContinuationResult\ContinuationResult.csproj", "{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContinueWhenAll", "ContinueWhenAll\ContinueWhenAll\ContinueWhenAll.csproj", "{B04EA84C-3F50-4253-BFC7-291FCBD415E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00- Materiales", "00- Materiales", "{08A8BC37-F4BB-41AB-B35D-88CD85C65ECE}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\Usuarios\Downloads\Capítulo 2_ Paralelismo de Tareas.png = ..\..\..\..\Usuarios\Downloads\Capítulo 2_ Paralelismo de Tareas.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - UnitTesting", "20 - UnitTesting", "{54929BF2-EDE4-409F-B955-823A1CCB3161}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestParallelProgramming", "UnitTestParallelProgramming\UnitTestParallelProgramming.csproj", "{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{92FE7EF1-AE17-4320-8120-8188E7F52D2F}.Debug|x86.ActiveCfg = Debug|x86
+		{92FE7EF1-AE17-4320-8120-8188E7F52D2F}.Debug|x86.Build.0 = Debug|x86
+		{92FE7EF1-AE17-4320-8120-8188E7F52D2F}.Release|x86.ActiveCfg = Release|x86
+		{92FE7EF1-AE17-4320-8120-8188E7F52D2F}.Release|x86.Build.0 = Release|x86
+		{8060595B-1875-4CAA-A09A-6560677CF8BC}.Debug|x86.ActiveCfg = Debug|x86
+		{8060595B-1875-4CAA-A09A-6560677CF8BC}.Debug|x86.Build.0 = Debug|x86
+		{8060595B-1875-4CAA-A09A-6560677CF8BC}.Release|x86.ActiveCfg = Release|x86
+		{8060595B-1875-4CAA-A09A-6560677CF8BC}.Release|x86.Build.0 = Release|x86
+		{5CD453D1-2DC0-4690-B938-FDBF3533EA37}.Debug|x86.ActiveCfg = Debug|x86
+		{5CD453D1-2DC0-4690-B938-FDBF3533EA37}.Debug|x86.Build.0 = Debug|x86
+		{5CD453D1-2DC0-4690-B938-FDBF3533EA37}.Release|x86.ActiveCfg = Release|x86
+		{5CD453D1-2DC0-4690-B938-FDBF3533EA37}.Release|x86.Build.0 = Release|x86
+		{02A0A2C0-442B-4C5D-8A21-50188C69B05B}.Debug|x86.ActiveCfg = Debug|x86
+		{02A0A2C0-442B-4C5D-8A21-50188C69B05B}.Debug|x86.Build.0 = Debug|x86
+		{02A0A2C0-442B-4C5D-8A21-50188C69B05B}.Release|x86.ActiveCfg = Release|x86
+		{02A0A2C0-442B-4C5D-8A21-50188C69B05B}.Release|x86.Build.0 = Release|x86
+		{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF}.Debug|x86.ActiveCfg = Debug|x86
+		{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF}.Debug|x86.Build.0 = Debug|x86
+		{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF}.Release|x86.ActiveCfg = Release|x86
+		{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF}.Release|x86.Build.0 = Release|x86
+		{BEA42E37-8551-4330-A56D-979BEFCE0DCF}.Debug|x86.ActiveCfg = Debug|x86
+		{BEA42E37-8551-4330-A56D-979BEFCE0DCF}.Debug|x86.Build.0 = Debug|x86
+		{BEA42E37-8551-4330-A56D-979BEFCE0DCF}.Release|x86.ActiveCfg = Release|x86
+		{BEA42E37-8551-4330-A56D-979BEFCE0DCF}.Release|x86.Build.0 = Release|x86
+		{06497E34-5987-4C6C-A6B3-DE00DD890964}.Debug|x86.ActiveCfg = Debug|x86
+		{06497E34-5987-4C6C-A6B3-DE00DD890964}.Debug|x86.Build.0 = Debug|x86
+		{06497E34-5987-4C6C-A6B3-DE00DD890964}.Release|x86.ActiveCfg = Release|x86
+		{06497E34-5987-4C6C-A6B3-DE00DD890964}.Release|x86.Build.0 = Release|x86
+		{83E7A4C6-0B4A-476D-BA15-9772142DFF07}.Debug|x86.ActiveCfg = Debug|x86
+		{83E7A4C6-0B4A-476D-BA15-9772142DFF07}.Debug|x86.Build.0 = Debug|x86
+		{83E7A4C6-0B4A-476D-BA15-9772142DFF07}.Release|x86.ActiveCfg = Release|x86
+		{83E7A4C6-0B4A-476D-BA15-9772142DFF07}.Release|x86.Build.0 = Release|x86
+		{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214}.Debug|x86.ActiveCfg = Debug|x86
+		{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214}.Debug|x86.Build.0 = Debug|x86
+		{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214}.Release|x86.ActiveCfg = Release|x86
+		{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214}.Release|x86.Build.0 = Release|x86
+		{B04EA84C-3F50-4253-BFC7-291FCBD415E1}.Debug|x86.ActiveCfg = Debug|x86
+		{B04EA84C-3F50-4253-BFC7-291FCBD415E1}.Debug|x86.Build.0 = Debug|x86
+		{B04EA84C-3F50-4253-BFC7-291FCBD415E1}.Release|x86.ActiveCfg = Release|x86
+		{B04EA84C-3F50-4253-BFC7-291FCBD415E1}.Release|x86.Build.0 = Release|x86
+		{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A}.Debug|x86.Build.0 = Debug|Any CPU
+		{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A}.Release|x86.ActiveCfg = Release|Any CPU
+		{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{92FE7EF1-AE17-4320-8120-8188E7F52D2F} = {60A2957B-7B32-4C58-9EB2-6FF09C06B4E9}
+		{8060595B-1875-4CAA-A09A-6560677CF8BC} = {6FDA4F38-5A38-4C42-A702-DF265229BAD1}
+		{5CD453D1-2DC0-4690-B938-FDBF3533EA37} = {89E9686C-C002-467F-969B-D3C26945BD3A}
+		{02A0A2C0-442B-4C5D-8A21-50188C69B05B} = {939E98B1-26E5-4766-A43F-5CCF5AE2540D}
+		{DE84912A-AD7E-4FF1-A67B-30A7729AB3EF} = {BE62E922-5612-4678-992A-357D8EFF7888}
+		{BEA42E37-8551-4330-A56D-979BEFCE0DCF} = {EEBBC55F-3F8A-49C1-83B2-B1B8F80A16B7}
+		{06497E34-5987-4C6C-A6B3-DE00DD890964} = {DE59B59A-EF0F-47B9-81B5-3EF97AF24ABF}
+		{83E7A4C6-0B4A-476D-BA15-9772142DFF07} = {CE4D3BD8-F650-40B0-9246-698D5A757B01}
+		{6323ED3E-DCCF-4DF0-87D8-BE8FC3138214} = {D03A64CE-741A-42CF-9284-676D5D2F0532}
+		{B04EA84C-3F50-4253-BFC7-291FCBD415E1} = {6648F38E-0F41-4989-B16C-B97934119BAF}
+		{23F6B7E0-67EF-4A97-A2AB-36D182C3BB8A} = {54929BF2-EDE4-409F-B955-823A1CCB3161}
+	EndGlobalSection
+EndGlobal
