@@ -4,11 +4,13 @@ using technical_tests_backend_ssr.Models;
 namespace technical_tests_backend_ssr.Data;
 public class AppDbContext : DbContext
 {
+
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
     public DbSet<Producto> Productos { get; set; }
+    public DbSet<Cliente> Clientes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -28,6 +30,28 @@ public class AppDbContext : DbContext
 
             entity.Property(p => p.Stock)
                 .IsRequired();
+        });
+        modelBuilder.Entity<Cliente>(entity =>
+        {
+            entity.ToTable("Clientes");
+
+            entity.HasKey(p => p.Id);
+
+            entity.Property(p => p.Nombre)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(p => p.Apellido)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(p => p.Email)
+                .IsRequired()
+                .HasMaxLength(100);
+
+            entity.Property(p => p.Telefono)
+                .IsRequired()
+                .HasMaxLength(20);
         });
         AppDbContext.Seed(modelBuilder);
     }

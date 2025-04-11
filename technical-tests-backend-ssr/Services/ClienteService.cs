@@ -40,4 +40,14 @@ public class ClienteService
         await _clienteRepository.DeleteAsync(id);
         return true;
     }
+
+    public async Task<bool> ExistsByTelefonoAsync(string telefono)
+    {
+        return await _clienteRepository.ExistsByTelefonoAsync(telefono);
+    }
+
+    public async Task<bool> ExistsByEmailAsync(string email)
+    {
+        return await _clienteRepository.ExistsByEmailAsync(email);
+    }
 }

@@ -18,44 +18,44 @@ public class ClienteController : ControllerBase
     /// </summary>
     /// <param name="clienteService"></param>
     /// <param name="mapper"></param>
-    public ProductoController(ClienteService clientService, IMapper mapper)
+    public ClienteController(ClienteService clientService, IMapper mapper)
     {
-        _productService = productService;
+        _clienteService = clientService;
         _mapper = mapper;
     }
 
     /// <summary>
-    /// Obtener todos los productos.
+    /// Obtener todos los clientes.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductoDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<ClienteDTO>>> GetAll()
     {
-        var products = await _productService.GetAllProductsAsync();
-        return Ok(_mapper.Map<IEnumerable<ProductoDTO>>(products));
+        var clientes = await _clienteService.GetAllClientsAsync();
+        return Ok(_mapper.Map<IEnumerable<ClienteDTO>>(clientes));
     }
 
     /// <summary>
-    /// Obtener un producto por su ID.
+    /// Obtener un cliente por su ID.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductoDTO>> GetById(int id)
+    public async Task<ActionResult<ClienteDTO>> GetById(int id)
     {
-        var product = await _productService.GetProductByIdAsync(id);
-        if (product == null) return NotFound();
-        return Ok(_mapper.Map<ProductoDTO>(product));
+        var cliente = await _clienteService.GetClientByIdAsync(id);
+        if (cliente == null) return NotFound();
+        return Ok(_mapper.Map<ClienteDTO>(cliente));
     }
 
 
     /// <summary>
-    /// Agregar un nuevo producto    
+    /// Agregar un nuevo cliente    
     /// </summary>
-    /// <param name="productoDTO"></param>
+    /// <param name="clienteDTO"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<ProductoDTO>> Create(ProductoDTO productoDTO)
+    public async Task<ActionResult<ClienteDTO>> Create(ClienteDTO clienteDTO)
     {
         // FluentValidation se hace automáticamente al verificar ModelState.IsValid.
         if (!ModelState.IsValid)
@@ -63,41 +63,60 @@ public class ClienteController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var product = _mapper.Map<Producto>(productoDTO);
-        var newProduct = await _productService.AddProductAsync(product);
-        return CreatedAtAction(nameof(GetById), new { id = newProduct.Id }, _mapper.Map<ProductoDTO>(newProduct));
-    }
+        var cliente = _mapper.Map<Cliente>(clienteDTO);
 
-    [HttpPut("{id}")]
-    public async Task<ActionResult<ProductoDTO>> Update(int id, [FromBody] ProductoDTO productoDTO)
-    {
-        //if (id != productoDTO.Id)
-        //{
-        //    return BadRequest("El ID del producto no coincide con el de la URL.");
-        //}
-
-        var product = await _productService.GetProductByIdAsync(id);
-        if (product == null)
+        //Valida si el teléfono ya existe
+        if (await _clienteService.ExistsByTelefonoAsync(cliente.Telefono))
         {
-            return NotFound($"No se encontró el producto con ID {id}.");
+            return BadRequest("El teléfono ya está en uso.");
         }
 
-        _mapper.Map(productoDTO, product);
-        await _productService.UpdateProductAsync(product);
+        //Valida si el email ya existe
+        if (await _clienteService.ExistsByEmailAsync(cliente.Email))
+        {
+            return BadRequest("El email ya está en uso.");
+        }
 
-        var updatedProductDTO = _mapper.Map<ProductoDTO>(product);
-        return Ok(updatedProductDTO); // Retornar el producto actualizado
+        var newCliente = await _clienteService.AddClientAsync(cliente);
+        return CreatedAtAction(nameof(GetById), new { id = newCliente.Id }, _mapper.Map<ClienteDTO>(newCliente));
+    }
+
+
+    /// <summary>
+    /// Modificar un cliente existente
+    /// </summary>
+    /// <param name="clienteDTO"></param>
+    /// <returns></returns>
+    [HttpPut("{id}")]
+    public async Task<ActionResult<ClienteDTO>> Update(int id, [FromBody] ClienteDTO clienteDTO)
+    {
+       if (id != clienteDTO.Id)
+       {
+           return BadRequest("El ID del cliente no coincide con el de la URL.");
+       }
+
+        var cliente = await _clienteService.GetClientByIdAsync(id);
+        if (cliente == null)
+        {
+            return NotFound($"No se encontró el cliente con ID {id}.");
+        }
+
+        _mapper.Map(clienteDTO, cliente);
+        await _clienteService.UpdateClientAsync(cliente);
+
+        var updatedClienteDTO = _mapper.Map<ClienteDTO>(cliente);
+        return Ok(updatedClienteDTO); // Retornar el cliente actualizado
     }
 
     /// <summary>
-    /// Eliminar un producto.
+    /// Eliminar un cliente.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _productService.DeleteProductAsync(id);
+        var deleted = await _clienteService.DeleteClientAsync(id);
         if (!deleted) return NotFound();
         return NoContent();
     }

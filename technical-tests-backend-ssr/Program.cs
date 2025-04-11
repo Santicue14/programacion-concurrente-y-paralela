@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using technical_tests_backend_ssr.Repositories;
 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -28,11 +29,11 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "API SSR Motors – Concesionaria",
         Version = "v1",
-        Description = "Venta y Distribución de Autos",
+        Description = "Venta y Distribución de Autos\nTrabajo práctico realizado para programación paralela y concurrente",
         Contact = new OpenApiContact
         {
-            Name = "Víctor Hugo Contreras",
-            Email = "victor.contreras@docentes.unpaz.edu.ar"
+            Name = "Santiago Baldini Cuevas",
+            Email = "santiagobcuevas14@gmail.com"
         }
     });
 
@@ -50,10 +51,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+//Productos
 builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
 builder.Services.AddScoped<ProductService>();
 
+//Clientes
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<ClienteService>();
+
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
+
+
 
 var app = builder.Build();
 
@@ -77,6 +86,11 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    dbContext.Database.Migrate(); // Aplica las migraciones pendientes
+    
+}
 
-app.UseHttpsRedirection();
 app.Run();

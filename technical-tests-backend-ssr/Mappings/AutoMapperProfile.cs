@@ -7,6 +7,9 @@ public class AutoMapperProfile : Profile
     {
         CreateMap<Producto, ProductoDTO>().ReverseMap();
         CreateMap<ProductoDTO, Producto>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        CreateMap<Cliente, ClienteDTO>().ReverseMap();
+        CreateMap<ClienteDTO, Cliente>().ForMember(dest => dest.Id, opt => opt.Ignore());
     }
 }
 
