@@ -16,7 +16,7 @@ public class ClienteController : ControllerBase
     /// <summary>
     /// 
     /// </summary>
-    /// <param name="clienteService"></param>
+    /// <param name="clientService"></param>
     /// <param name="mapper"></param>
     public ClienteController(ClienteService clientService, IMapper mapper)
     {
@@ -86,6 +86,7 @@ public class ClienteController : ControllerBase
     /// Modificar un cliente existente
     /// </summary>
     /// <param name="clienteDTO"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<ActionResult<ClienteDTO>> Update(int id, [FromBody] ClienteDTO clienteDTO)

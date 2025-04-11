@@ -3,6 +3,9 @@
 /// </summary>
 public class ClienteDTO
 {
+    /// <summary>
+    /// Identificador único del cliente.
+    /// </summary>
     public int Id { get; set; }
     /// <summary>
     /// Nombre del cliente.

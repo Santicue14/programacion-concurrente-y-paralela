@@ -14,7 +14,10 @@ public class Vehiculo
     /// Modelo del vehículo.
     /// </summary>
     public int ModeloId { get; set; }
-    public Modelo Modelo { get; set; }
+    /// <summary>
+    /// Modelo del vehículo.
+    /// </summary>
+    public Modelo? Modelo { get; set; }
 
 
     /// <summary>

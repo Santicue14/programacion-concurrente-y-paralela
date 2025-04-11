@@ -1,9 +1,17 @@
 ﻿using FluentValidation;
 
+
+/// <summary>
+/// Validador para el DTO de Cliente.
+/// </summary>
 public class ClienteDTOValidator : AbstractValidator<ClienteDTO>
 {
+    /// <summary>
+    /// Constructor de la clase ClienteDTOValidator.
+    /// </summary>
     public ClienteDTOValidator()
     {
+        
         RuleFor(c => c.Nombre)
             .NotEmpty().WithMessage("El nombre es obligatorio.")
             .Length(3, 100).WithMessage("El nombre debe tener entre 3 y 100 caracteres.");

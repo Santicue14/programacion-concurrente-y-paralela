@@ -15,5 +15,8 @@ public class Marca
     /// </summary>
     public string Nombre { get; set; } = string.Empty;
 
-    public ICollection<Modelo> Modelos { get; set; }
+    /// <summary>
+    /// Modelos de la marca.
+    /// </summary>
+    public ICollection<Modelo> Modelos { get; set; } = new List<Modelo>();
 }

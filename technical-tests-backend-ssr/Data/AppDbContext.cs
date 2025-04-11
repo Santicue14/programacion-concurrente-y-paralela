@@ -2,18 +2,46 @@
 using technical_tests_backend_ssr.Models;
 
 namespace technical_tests_backend_ssr.Data;
+/// <summary>
+/// Clase que representa el contexto de la base de datos.
+/// </summary>
 public class AppDbContext : DbContext
 {
 
+    /// <summary>
+    /// Constructor de la clase AppDbContext.
+    /// </summary>
+    /// <param name="options"></param>
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
     }
 
+    /// <summary>
+    /// Representa la tabla de clientes en la base de datos.
+    /// </summary>
     public DbSet<Cliente> Clientes { get; set; }
+    /// <summary>
+    /// Representa la tabla de vehículos en la base de datos.
+    /// </summary>
     public DbSet<Vehiculo> Vehiculos { get; set; }
 
+    /// <summary>
+    /// Representa la tabla de marcas en la base de datos.
+    /// </summary>
+    public DbSet<Marca> Marcas { get; set; }
+
+    /// <summary>
+    /// Representa la tabla de modelos en la base de datos.
+    /// </summary>
+    public DbSet<Modelo> Modelos { get; set; }
+
+    /// <summary>
+    /// Método para configurar el modelo de la base de datos.
+    /// </summary>
+    /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         modelBuilder.Entity<Cliente>(entity =>
         {
             entity.ToTable("Clientes");
@@ -84,6 +112,12 @@ public class AppDbContext : DbContext
         });
         AppDbContext.Seed(modelBuilder);
     }
+
+
+    /// <summary>
+    /// Método para inicializar la base de datos con datos de prueba.
+    /// </summary>
+    /// <param name="modelBuilder"></param>
     public static void Seed(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cliente>().HasData(

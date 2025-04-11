@@ -11,8 +11,8 @@ using technical_tests_backend_ssr.Data;
 namespace technical_tests_backend_ssr.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250411161221_MigracionInicial")]
-    partial class MigracionInicial
+    [Migration("20250411212811_PrimerInicio")]
+    partial class PrimerInicio
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

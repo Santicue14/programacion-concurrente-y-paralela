@@ -19,7 +19,13 @@ public class Modelo
     /// Marca del modelo.
     /// </summary>
     public int MarcaId { get; set; }
-    public Marca Marca { get; set; }
+    /// <summary>
+    /// Marca asociada a este modelo.
+    /// </summary>
+    public Marca? Marca { get; set; } 
 
-    public ICollection<Vehiculo> Vehiculos { get; set; }
+    /// <summary>
+    /// Vehículos asociados a este modelo.
+    /// </summary>
+    public ICollection<Vehiculo> Vehiculos { get; set; } = new List<Vehiculo>();
 }
