@@ -11,20 +11,16 @@ public class Vehiculo
     public int Id { get; set; }
 
     /// <summary>
-    /// Marca del vehículo.
-    /// </summary>
-    public string Marca { get; set; } = string.Empty;
-
-    /// <summary>
     /// Modelo del vehículo.
     /// </summary>
-    public string Modelo { get; set; } = string.Empty;
+    public int ModeloId { get; set; }
+    public Modelo Modelo { get; set; }
+
 
     /// <summary>
     /// Año del vehículo.
     /// </summary>
     public int Anio { get; set; }
-
 
     /// <summary>
     /// Precio del vehículo.
