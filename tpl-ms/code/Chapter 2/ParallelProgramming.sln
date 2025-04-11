@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContinueWhenAll", "Continue
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "00- Materiales", "00- Materiales", "{08A8BC37-F4BB-41AB-B35D-88CD85C65ECE}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\..\..\Usuarios\Downloads\Capítulo 2_ Paralelismo de Tareas.png = ..\..\..\..\Usuarios\Downloads\Capítulo 2_ Paralelismo de Tareas.png
+		Materiales\Capítulo 2_ Paralelismo de Tareas.png = Materiales\Capítulo 2_ Paralelismo de Tareas.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "20 - UnitTesting", "20 - UnitTesting", "{54929BF2-EDE4-409F-B955-823A1CCB3161}"
