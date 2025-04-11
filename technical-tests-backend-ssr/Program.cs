@@ -4,7 +4,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using technical_tests_backend_ssr.Repositories;
-
+Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -77,6 +77,6 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+
 app.UseHttpsRedirection();
 app.Run();
-
