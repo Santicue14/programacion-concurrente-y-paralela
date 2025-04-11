@@ -5,11 +5,13 @@ public class AutoMapperProfile : Profile
 {
     public AutoMapperProfile()
     {
-        CreateMap<Producto, ProductoDTO>().ReverseMap();
-        CreateMap<ProductoDTO, Producto>().ForMember(dest => dest.Id, opt => opt.Ignore());
-
+        // Creación de map para cliente y clienteDTO
         CreateMap<Cliente, ClienteDTO>().ReverseMap();
         CreateMap<ClienteDTO, Cliente>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        // Creación de map para vehículo y vehiculoDTO
+        CreateMap<Vehiculo, VehiculoDTO>().ReverseMap();
+        CreateMap<VehiculoDTO, Vehiculo>().ForMember(dest => dest.Id, opt => opt.Ignore());
     }
 }
 

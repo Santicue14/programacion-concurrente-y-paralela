@@ -1,7 +1,7 @@
 namespace technical_tests_backend_ssr.Models;
 
 /// <summary>
-/// Producto refleja la esencia de la boutique: artefactos exclusivos para autos.
+/// Cliente es aquel que adquiere nuestros autos.
 /// </summary>
 public class Cliente
 {

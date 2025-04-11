@@ -11,7 +11,16 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<ProductoDTOValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<ClienteDTOValidator>();
+
+//Clientes
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<ClienteService>();
+
+
+//Vehiculos
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<VehiculoService>();
 
 builder.Services.AddCors(options =>
 {
@@ -51,18 +60,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//Productos
-builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
-builder.Services.AddScoped<ProductService>();
-
-//Clientes
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<ClienteService>();
-
-
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
-
-
 
 var app = builder.Build();
 
