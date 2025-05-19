@@ -6,6 +6,14 @@ using Microsoft.OpenApi.Models;
 using technical_tests_backend_ssr.Repositories;
 using technical_tests_backend_ssr.Services;
 using technical_tests_backend_ssr.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using DotNetEnv;
+
+// Cargar variables de entorno
+Env.Load();
+
 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
 var builder = WebApplication.CreateBuilder(args);
@@ -85,6 +93,25 @@ builder.Services.AddScoped<IServicioPosventaRepository, ServicioPosventaReposito
 
 // Add Services
 builder.Services.AddScoped<ICatalogoService, CatalogoService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+
+// Add Authentication
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!))
+        };
+    });
 
 var app = builder.Build();
 
@@ -94,7 +121,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c =>
     {
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "SSR Motors API v1");
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Santicue Motors API  PPyC v1");
     });
 }
 

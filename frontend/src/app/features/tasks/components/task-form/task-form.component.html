@@ -1,0 +1,72 @@
+<div id="taskFormModal">
+<div class="container form-container">
+  <h2 class="text-center">{{ task.id ? 'Editar Tarea' : 'Nueva Tarea' }}</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- Title Field -->
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        [(ngModel)]="task.title"
+        name="title"
+        required
+        placeholder="Ingrese el título de la tarea"
+      />
+    </div>
+
+    <!-- Description Field -->
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea
+        id="description"
+        class="form-control"
+        [(ngModel)]="task.description"
+        name="description"
+        placeholder="Ingrese la descripción de la tarea"
+      ></textarea>
+    </div>
+
+    <!-- Due Date Field -->
+    <div class="form-group">
+      <label for="due_date">Fecha de vencimiento</label>
+      <input
+        type="datetime-local"
+        id="due_date"
+        class="form-control"
+        [(ngModel)]="task.due_date"
+        name="due_date"
+      />
+    </div>
+
+    <!-- Completed Field -->
+    <div class="form-check">
+      <input
+        type="checkbox"
+        id="completed"
+        class="form-check-input"
+        [(ngModel)]="task.completed"
+        name="completed"
+      />
+      <label class="form-check-label" for="completed">¿Tarea Terminada?</label>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group mt-3">
+      <button
+        type="submit"
+        class="btn btn-custom w-100"
+        [disabled]="!task.title || !task.description"
+      >
+        {{ task.id ? 'Actualizar Tarea' : 'Crear Tarea' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="form-group mt-3">
+    <button class="btn btn-secondary w-100" (click)="goBack()">Cancelar</button>
+  </div>
+</div>
+</div>

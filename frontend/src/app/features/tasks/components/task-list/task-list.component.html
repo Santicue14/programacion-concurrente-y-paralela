@@ -1,0 +1,83 @@
+<div class="container task-list-container">
+  <h1 class="task-list-title">Lista de Tareas</h1>
+
+  <p class="task-actions"><button class="btn btn-edit btn-sm" (click)="onCreateTask()">Nuevo</button></p>
+  <table class="table task-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Fecha de Vencimiento</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let task of tasks; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ task.title }}</td>
+        <td>{{ task.description }}</td>
+        <td>
+          <span class="badge" [ngClass]="task.completed ? 'bg-success' : 'bg-warning'">
+			  {{ task.completed ? 'Completada' : 'Pendiente' }}
+		  </span>
+
+        </td>
+        <td>{{ task.due_date | date: 'dd/MM/yyyy' }}</td>
+        <td class="task-actions">
+          <button class="btn btn-edit btn-sm" (click)="onEditTask(task)">Editar</button>
+		  
+          <button class="btn btn-delete btn-sm" (click)="onDeleteTask(task)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="tasks.length === 0">
+        <td colspan="6" class="no-tasks-message">No hay tareas para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Modal de Confirmación -->
+<div
+  class="modal fade"
+  id="deleteTaskModal"
+  tabindex="-1"
+  aria-labelledby="deleteTaskModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteTaskModalLabel">Confirmar Borrado</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas borrar la tarea "<strong>{{ selectedTask?.title }}</strong>"?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete()"
+        >
+          Borrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+</div>

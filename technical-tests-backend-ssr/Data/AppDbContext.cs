@@ -55,9 +55,11 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<TipoServicio> TiposServicio { get; set; }
 
-
-
     /// <summary>
+    /// Representa la tabla de usuarios en la base de datos.
+    /// </summary>
+    public DbSet<Usuario> Usuarios { get; set; }
+
     /// Método para configurar el modelo de la base de datos.
     /// </summary>
     /// <param name="modelBuilder"></param>
@@ -177,6 +179,13 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        modelBuilder.Entity<Usuario>(entity =>
+        {
+            entity.ToTable("Usuarios");
+            entity.HasKey(u => u.Id);
+            entity.Property(u => u.Email).IsRequired().HasMaxLength(100);
+            entity.Property(u => u.PasswordHash).IsRequired().HasMaxLength(100);
+        });
         AppDbContext.Seed(modelBuilder);
     }
 

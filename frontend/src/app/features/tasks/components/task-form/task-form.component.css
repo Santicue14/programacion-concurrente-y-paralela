@@ -1,0 +1,60 @@
+/* Estilos generales para el formulario */
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* Estilo de los botones */
+.btn-custom {
+  background-color: #007bff;
+  color: white;
+  border-radius: 4px;
+  border: none;
+  padding: 10px 20px;
+  width: 100%;
+  font-size: 16px;
+}
+
+.btn-custom:hover {
+  background-color: #0056b3;
+  cursor: pointer;
+}
+
+/* Estilo para inputs de texto y datetime-local */
+input.form-control {
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="datetime-local"] {
+  padding-left: 10px;
+}
+
+/* Estilos de la validación */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-valid {
+  border-color: #28a745;
+}
+
+/* Fondo del modal con opacidad */
+.fancybox-container {
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro con opacidad */
+}
+
+/* El contenido del modal */
+.fancybox-content {
+  opacity: 1; /* Asegúrate de que el contenido del modal sea opaco */
+}
