@@ -1,10 +1,10 @@
 /// <summary>
-/// Cliente refleja la información de los compradores.
+/// Cliente refleja la informaciï¿½n de los compradores.
 /// </summary>
 public class ClienteDTO
 {
     /// <summary>
-    /// Identificador único del cliente.
+    /// Identificador ï¿½nico del cliente.
     /// </summary>
     public int Id { get; set; }
     /// <summary>
@@ -20,7 +20,7 @@ public class ClienteDTO
     /// </summary>
     public string Email { get; set; } = string.Empty;
     /// <summary>
-    /// Teléfono del cliente.
+    /// Telï¿½fono del cliente.
     /// </summary>
     public string Telefono { get; set; } = string.Empty;
 }

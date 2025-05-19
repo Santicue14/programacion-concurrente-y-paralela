@@ -1,31 +1,41 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using technical_tests_backend_ssr.Models;
-
+using technical_tests_backend_ssr.Services;
 
 /// <summary>
-/// 
+/// Controlador para gestionar las ventas
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
 public class VentaController : ControllerBase
 {
     private readonly VentaService _ventaService;
+    private readonly ClienteService _clienteService;
+    private readonly VehiculoService _vehiculoService;
     private readonly IMapper _mapper;
 
     /// <summary>
-    /// 
+    /// Constructor del controlador de ventas
     /// </summary>
     /// <param name="ventaService"></param>
+    /// <param name="clienteService"></param>
+    /// <param name="vehiculoService"></param>
     /// <param name="mapper"></param>
-    public VentaController(VentaService ventaService, IMapper mapper)
+    public VentaController(
+        VentaService ventaService, 
+        ClienteService clienteService,
+        VehiculoService vehiculoService,
+        IMapper mapper)
     {
         _ventaService = ventaService;
+        _clienteService = clienteService;
+        _vehiculoService = vehiculoService;
         _mapper = mapper;
     }
 
     /// <summary>
-    /// Obtener todos los clientes.
+    /// Obtener todas las ventas.
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -55,18 +65,18 @@ public class VentaController : ControllerBase
     /// <param name="ventaDTO"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<VentaDTO>> Create(VentaDTO ventaDTO)
+    public async Task<ActionResult<VentaDTO>> Create(int clientId, int vehicleId)
     {
-        // FluentValidation se hace autom�ticamente al verificar ModelState.IsValid.
+        //Lo que tiene que recibir son los ID de cliente y vehiculo
+
+        // FluentValidation se hace automáticamente al verificar ModelState.IsValid.
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var venta = _mapper.Map<Venta>(ventaDTO);
-
-        Cliente cliente = await _clienteService.GetClienteByIdAsync(venta.ClienteId);
-        Vehiculo vehiculo = await _vehiculoService.GetVehiculoByIdAsync(venta.VehiculoId);
+        var cliente = await _clienteService.GetClientByIdAsync(clientId);
+        var vehiculo = await _vehiculoService.GetVehicleByIdAsync(vehicleId);
 
         if (cliente == null)
         {
@@ -83,9 +93,18 @@ public class VentaController : ControllerBase
             return BadRequest("El vehiculo no está disponible.");
         }
 
+
+        var venta = new Venta
+        {
+            ClienteId = clientId,
+            VehiculoId = vehicleId,
+            Total = vehiculo.Precio
+        };
+
+
         vehiculo.Stock--;
 
-        await _vehiculoService.UpdateVehiculoAsync(vehiculo);
+        await _vehiculoService.UpdateVehicleAsync(vehiculo);
 
         var newVenta = await _ventaService.AddVentaAsync(venta);
         return CreatedAtAction(nameof(GetById), new { id = newVenta.Id }, _mapper.Map<VentaDTO>(newVenta));
@@ -109,25 +128,25 @@ public class VentaController : ControllerBase
         var venta = await _ventaService.GetVentaByIdAsync(id);
         if (venta == null)
         {
-            return NotFound($"No se encontr� la venta con ID {id}.");
+            return NotFound($"No se encontró la venta con ID {id}.");
         }
 
         _mapper.Map(ventaDTO, venta);
         await _ventaService.UpdateVentaAsync(venta);
 
-        var updatedClienteDTO = _mapper.Map<ClienteDTO>(cliente);
-        return Ok(updatedClienteDTO); // Retornar el cliente actualizado
+        var updatedVentaDTO = _mapper.Map<VentaDTO>(venta);
+        return Ok(updatedVentaDTO);
     }
 
     /// <summary>
-    /// Eliminar un cliente.
+    /// Eliminar una venta.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var deleted = await _clienteService.DeleteClientAsync(id);
+        var deleted = await _ventaService.DeleteVentaAsync(id);
         if (!deleted) return NotFound();
         return NoContent();
     }

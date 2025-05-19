@@ -6,20 +6,29 @@ namespace technical_tests_backend_ssr.Models;
 public class Venta
 {
     /// <summary>
-    /// Identificador �nico de la venta.
+    /// Identificador único de la venta.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Identificador �nico del cliente.
+    /// Identificador único del cliente.
     /// </summary>
     public int ClienteId { get; set; }
 
     /// <summary>
-    /// Identificador �nico del vehículo.
+    /// Cliente asociado a esta venta.
+    /// </summary>
+    public Cliente? Cliente { get; set; }
+
+    /// <summary>
+    /// Identificador único del vehículo.
     /// </summary>
     public int VehiculoId { get; set; }
 
+    /// <summary>
+    /// Vehículo asociado a esta venta.
+    /// </summary>
+    public Vehiculo? Vehiculo { get; set; }
 
     /// <summary>
     /// Fecha de la venta.
@@ -30,5 +39,4 @@ public class Venta
     /// Total de la venta.
     /// </summary>
     public decimal Total { get; set; }
-    
 }

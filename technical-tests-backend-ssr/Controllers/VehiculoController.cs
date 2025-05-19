@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using technical_tests_backend_ssr.Models;
-
+using technical_tests_backend_ssr.Services;
 
 /// <summary>
-/// 
+/// Controlador para gestionar los vehÃ­culos
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
@@ -50,14 +50,14 @@ public class VehiculoController : ControllerBase
 
 
     /// <summary>
-    /// Agregar un nuevo vehículo    
+    /// Agregar un nuevo vehï¿½culo    
     /// </summary>
     /// <param name="vehiculoDTO"></param>
     /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<VehiculoDTO>> Create(VehiculoDTO vehiculoDTO)
     {
-        // FluentValidation se hace automáticamente al verificar ModelState.IsValid.
+        // FluentValidation se hace automï¿½ticamente al verificar ModelState.IsValid.
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -71,7 +71,7 @@ public class VehiculoController : ControllerBase
 
 
     /// <summary>
-    /// Modificar un vehículo existente
+    /// Modificar un vehï¿½culo existente
     /// </summary>
     /// <param name="vehiculoDTO"></param>
     /// <param name="id"></param>
@@ -81,24 +81,24 @@ public class VehiculoController : ControllerBase
     {
        if (id != vehiculoDTO.Id)
        {
-           return BadRequest("El ID del vehículo no coincide con el de la URL.");
+           return BadRequest("El ID del vehï¿½culo no coincide con el de la URL.");
        }
 
         var vehiculo = await _vehiculoService.GetVehicleByIdAsync(id);
         if (vehiculo == null)
         {
-            return NotFound($"No se encontró el vehículo con ID {id}.");
+            return NotFound($"No se encontrï¿½ el vehï¿½culo con ID {id}.");
         }
 
         _mapper.Map(vehiculoDTO, vehiculo);
         await _vehiculoService.UpdateVehicleAsync(vehiculo);
 
         var updatedVehicleTO = _mapper.Map<VehiculoDTO>(vehiculo);
-        return Ok(updatedVehicleTO); // Retornar el vehículo actualizado
+        return Ok(updatedVehicleTO); // Retornar el vehï¿½culo actualizado
     }
 
     /// <summary>
-    /// Eliminar un veh´culo.
+    /// Eliminar un vehï¿½culo.
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

@@ -28,7 +28,7 @@ public class VehiculoRepository : IVehiculoRepository
     {
         return await _context.Vehiculos
             .Include(v => v.Modelo)
-            .ThenInclude(m => m.Marca)
+            .Include(v => v.Modelo.Marca)
             .ToListAsync();
     }
 

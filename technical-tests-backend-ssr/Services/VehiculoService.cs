@@ -1,6 +1,8 @@
 ﻿using technical_tests_backend_ssr.Models;
 using technical_tests_backend_ssr.Repositories;
 
+namespace technical_tests_backend_ssr.Services;
+
 /// <summary>
 /// Service class for managing vehicles.
 /// </summary>

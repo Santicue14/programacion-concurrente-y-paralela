@@ -1,10 +1,10 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using technical_tests_backend_ssr.Models;
-
+using technical_tests_backend_ssr.Services;
 
 /// <summary>
-/// 
+/// Controlador para gestionar los clientes
 /// </summary>
 [Route("api/[controller]")]
 [ApiController]
@@ -57,7 +57,7 @@ public class ClienteController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ClienteDTO>> Create(ClienteDTO clienteDTO)
     {
-        // FluentValidation se hace automáticamente al verificar ModelState.IsValid.
+        // FluentValidation se hace automï¿½ticamente al verificar ModelState.IsValid.
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -65,16 +65,16 @@ public class ClienteController : ControllerBase
 
         var cliente = _mapper.Map<Cliente>(clienteDTO);
 
-        //Valida si el teléfono ya existe
+        //Valida si el telï¿½fono ya existe
         if (await _clienteService.ExistsByTelefonoAsync(cliente.Telefono))
         {
-            return BadRequest("El teléfono ya está en uso.");
+            return BadRequest("El telï¿½fono ya estï¿½ en uso.");
         }
 
         //Valida si el email ya existe
         if (await _clienteService.ExistsByEmailAsync(cliente.Email))
         {
-            return BadRequest("El email ya está en uso.");
+            return BadRequest("El email ya estï¿½ en uso.");
         }
 
         var newCliente = await _clienteService.AddClientAsync(cliente);
@@ -99,7 +99,7 @@ public class ClienteController : ControllerBase
         var cliente = await _clienteService.GetClientByIdAsync(id);
         if (cliente == null)
         {
-            return NotFound($"No se encontró el cliente con ID {id}.");
+            return NotFound($"No se encontrï¿½ el cliente con ID {id}.");
         }
 
         _mapper.Map(clienteDTO, cliente);

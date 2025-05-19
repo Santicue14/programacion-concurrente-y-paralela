@@ -1,35 +1,35 @@
 /// <summary>
-/// Cliente refleja la información de los compradores.
+/// Cliente refleja la informaciï¿½n de los compradores.
 /// </summary>
 public class VehiculoDTO
 {
     /// <summary>
-    /// Identificador único del vehículo.
+    /// Identificador ï¿½nico del vehï¿½culo.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Nombre de la marca del vehículo.
+    /// Nombre de la marca del vehï¿½culo.
     /// </summary>
     public string Marca { get; set; } = string.Empty;
 
     /// <summary>
-    /// Nombre del modelo del vehículo.
+    /// Nombre del modelo del vehï¿½culo.
     /// </summary>
     public string Modelo { get; set; } = string.Empty;
 
     /// <summary>
-    /// Año del vehículo.
+    /// Aï¿½o del vehï¿½culo.
     /// </summary>
     public int Anio { get; set; }
 
     /// <summary>
-    /// Precio del vehículo.
+    /// Precio del vehï¿½culo.
     /// </summary>
     public decimal Precio { get; set; }
 
     /// <summary>
-    /// Cantidad de vehículos disponibles en stock.
+    /// Cantidad de vehï¿½culos disponibles en stock.
     /// </summary>
     public int Stock { get; set; } = 0;
 }

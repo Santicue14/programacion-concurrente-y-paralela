@@ -4,6 +4,8 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.OpenApi.Models;
 using technical_tests_backend_ssr.Repositories;
+using technical_tests_backend_ssr.Services;
+using technical_tests_backend_ssr.Models;
 Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,15 @@ builder.Services.AddScoped<ClienteService>();
 builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
 builder.Services.AddScoped<VehiculoService>();
 
+//Ventas
+builder.Services.AddScoped<IVentaRepository, VentaRepository>();
+builder.Services.AddScoped<VentaService>();
+
+// Registrar servicios
+builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IVehiculoRepository, VehiculoRepository>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll",
@@ -36,9 +47,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "API SSR Motors – Concesionaria",
+        Title = "API SSR Motors ï¿½ Concesionaria",
         Version = "v1",
-        Description = "Venta y Distribución de Autos\nTrabajo práctico realizado para programación paralela y concurrente",
+        Description = "Venta y Distribuciï¿½n de Autos\nTrabajo prï¿½ctico realizado para programaciï¿½n paralela y concurrente",
         Contact = new OpenApiContact
         {
             Name = "Santiago Baldini Cuevas",

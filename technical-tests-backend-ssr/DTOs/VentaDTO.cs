@@ -1,3 +1,4 @@
+
 /// <summary>
 /// DTO para la venta de un vehículo.
 /// </summary>
@@ -8,12 +9,12 @@ public class VentaDTO
     /// <summary>
     /// Datos del cliente.
     /// </summary>
-    public ClienteDTO Cliente { get; set; }
+    public ClienteDTO? Cliente { get; set; }
 
     /// <summary>
     /// Datos del vehículo.
     /// </summary>
-    public VehiculoDTO Vehiculo { get; set; }
+    public VehiculoDTO? Vehiculo { get; set; }
 
     /// <summary>
     /// Fecha de la venta.

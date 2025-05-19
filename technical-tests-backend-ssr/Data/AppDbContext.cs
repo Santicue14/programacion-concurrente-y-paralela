@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using technical_tests_backend_ssr.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace technical_tests_backend_ssr.Data;
 /// <summary>
@@ -34,6 +37,11 @@ public class AppDbContext : DbContext
     /// Representa la tabla de modelos en la base de datos.
     /// </summary>
     public DbSet<Modelo> Modelos { get; set; }
+
+    /// <summary>
+    /// Representa la tabla de ventas en la base de datos.
+    /// </summary>
+    public DbSet<Venta> Ventas { get; set; }
 
     /// <summary>
     /// Método para configurar el modelo de la base de datos.
@@ -120,6 +128,7 @@ public class AppDbContext : DbContext
     /// <param name="modelBuilder"></param>
     public static void Seed(ModelBuilder modelBuilder)
     {
+        // Clientes existentes
         modelBuilder.Entity<Cliente>().HasData(
             new Cliente { Id = 1, Nombre = "Santiago", Apellido = "Cuevas", Email = "santiagobcuevas14@gmail.com", Telefono = "1161970490" },
             new Cliente { Id = 2, Nombre = "Lucía", Apellido = "Pérez", Email = "lucia.perez@email.com", Telefono = "1134567890" },
@@ -133,6 +142,7 @@ public class AppDbContext : DbContext
             new Cliente { Id = 10, Nombre = "Agustina", Apellido = "Herrera", Email = "agustina.herrera@email.com", Telefono = "1112345678" }
         );
 
+        // Marcas existentes
         modelBuilder.Entity<Marca>().HasData(
             new Marca { Id = 1, Nombre = "Toyota" },
             new Marca { Id = 2, Nombre = "Ford" },
@@ -149,6 +159,7 @@ public class AppDbContext : DbContext
             new Marca { Id = 13, Nombre = "Fiat" }
         );
 
+        // Modelos existentes
         modelBuilder.Entity<Modelo>().HasData(
             new Modelo { Id = 1, MarcaId = 1, Nombre = "Corolla" },
             new Modelo { Id = 2, MarcaId = 2, Nombre = "Focus" },
@@ -165,20 +176,50 @@ public class AppDbContext : DbContext
             new Modelo { Id = 13, MarcaId = 13, Nombre = "Cronos" }
         );
 
-        modelBuilder.Entity<Vehiculo>().HasData(
-            new Vehiculo { Id = 1, ModeloId = 1, Anio = 2020, Precio = 5100000, Stock = 10 },
-            new Vehiculo { Id = 2, ModeloId = 2, Anio = 2019, Precio = 6300000, Stock = 8 },
-            new Vehiculo { Id = 3, ModeloId = 3, Anio = 2021, Precio = 5500000, Stock = 12 },
-            new Vehiculo { Id = 4, ModeloId = 4, Anio = 2022, Precio = 7000000, Stock = 5 },
-            new Vehiculo { Id = 5, ModeloId = 5, Anio = 2018, Precio = 5200000, Stock = 15 },
-            new Vehiculo { Id = 6, ModeloId = 6, Anio = 2020, Precio = 5600000, Stock = 7 },
-            new Vehiculo { Id = 7, ModeloId = 7, Anio = 2021, Precio = 6500000, Stock = 6 },
-            new Vehiculo { Id = 8, ModeloId = 8, Anio = 2019, Precio = 8000000, Stock = 4 },
-            new Vehiculo { Id = 9, ModeloId = 9, Anio = 2022, Precio = 9000000, Stock = 3 },
-            new Vehiculo { Id = 10, ModeloId = 10, Anio = 2020, Precio = 8500000, Stock = 2 },
-            new Vehiculo { Id = 11, ModeloId = 11, Anio = 2021, Precio = 5100000, Stock = 10 },
-            new Vehiculo { Id = 12, ModeloId = 12, Anio = 2022, Precio = 6200000, Stock = 9 },
-            new Vehiculo { Id = 13, ModeloId = 13, Anio = 2023, Precio = 5900000, Stock = 11 }
-        );
+        // Generar más vehículos
+        var vehiculos = new List<Vehiculo>();
+        var random = new Random();
+        var id = 1;
+
+        for (int modeloId = 1; modeloId <= 13; modeloId++)
+        {
+            for (int i = 0; i < 50; i++) // 50 vehículos por modelo
+            {
+                vehiculos.Add(new Vehiculo
+                {
+                    Id = id++,
+                    ModeloId = modeloId,
+                    Anio = random.Next(2018, 2024),
+                    Precio = random.Next(5000000, 15000000),
+                    Stock = random.Next(1, 20)
+                });
+            }
+        }
+
+        modelBuilder.Entity<Vehiculo>().HasData(vehiculos);
+
+        // Generar ventas
+        var ventas = new List<Venta>();
+        var fechaInicio = new DateTime(2023, 1, 1);
+        var fechaFin = DateTime.Now;
+
+        for (int i = 1; i <= 1000; i++)
+        {
+            var clienteId = random.Next(1, 11); // 10 clientes
+            var vehiculoId = random.Next(1, vehiculos.Count + 1);
+            var vehiculo = vehiculos.First(v => v.Id == vehiculoId);
+            var fecha = fechaInicio.AddDays(random.Next((fechaFin - fechaInicio).Days));
+
+            ventas.Add(new Venta
+            {
+                Id = i,
+                ClienteId = clienteId,
+                VehiculoId = vehiculoId,
+                Fecha = fecha,
+                Total = vehiculo.Precio
+            });
+        }
+
+        modelBuilder.Entity<Venta>().HasData(ventas);
     }
 }
