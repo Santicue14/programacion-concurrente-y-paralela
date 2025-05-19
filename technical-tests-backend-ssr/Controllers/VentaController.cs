@@ -62,7 +62,8 @@ public class VentaController : ControllerBase
     /// <summary>
     /// Agregar una nueva venta    
     /// </summary>
-    /// <param name="ventaDTO"></param>
+    /// <param name="clientId"></param>
+    /// <param name="vehicleId"></param>
     /// <returns></returns>
     [HttpPost]
     public async Task<ActionResult<VentaDTO>> Create(int clientId, int vehicleId)
@@ -76,33 +77,21 @@ public class VentaController : ControllerBase
         }
 
         var cliente = await _clienteService.GetClientByIdAsync(clientId);
-        var vehiculo = await _vehiculoService.GetVehicleByIdAsync(vehicleId);
-
         if (cliente == null)
         {
-            return BadRequest("El cliente no existe.");
+            return NotFound("El cliente no existe.");
         }
-
+        var vehiculo = await _vehiculoService.GetVehicleByIdAsync(vehicleId);
         if (vehiculo == null)
         {
-            return BadRequest("El vehiculo no existe.");
+            return NotFound("El vehiculo no existe.");
         }
-
-        if (vehiculo.Stock <= 0)
-        {
-            return BadRequest("El vehiculo no está disponible.");
-        }
-
-
         var venta = new Venta
         {
             ClienteId = clientId,
             VehiculoId = vehicleId,
             Total = vehiculo.Precio
         };
-
-
-        vehiculo.Stock--;
 
         await _vehiculoService.UpdateVehicleAsync(vehiculo);
 

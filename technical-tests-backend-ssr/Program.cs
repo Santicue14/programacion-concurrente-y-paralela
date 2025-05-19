@@ -73,6 +73,19 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+// Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection"), new MySqlServerVersion(new Version(8, 0, 21))));
+
+// Add Repositories
+builder.Services.AddScoped<ITipoServicioRepository, TipoServicioRepository>();
+builder.Services.AddScoped<IModeloRepository, ModeloRepository>();
+builder.Services.AddScoped<IMarcaRepository, MarcaRepository>();
+builder.Services.AddScoped<IServicioPosventaRepository, ServicioPosventaRepository>();
+
+// Add Services
+builder.Services.AddScoped<ICatalogoService, CatalogoService>();
+
 var app = builder.Build();
 
 // Habilitar Swagger

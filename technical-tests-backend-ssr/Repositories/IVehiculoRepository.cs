@@ -37,4 +37,11 @@ public interface IVehiculoRepository
     /// <param name="id"></param>
     /// <returns></returns>
     Task DeleteAsync(int id);
+
+    /// <summary>
+    /// Update the stock of a vehiculo
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="stock"></param>
+    Task UpdateStockAsync(int id);
 }

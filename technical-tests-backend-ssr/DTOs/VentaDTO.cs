@@ -4,6 +4,9 @@
 /// </summary>
 public class VentaDTO
 {
+    /// <summary>
+    /// Identificador único de la venta.
+    /// </summary>
     public int Id { get; set; }
 
     /// <summary>

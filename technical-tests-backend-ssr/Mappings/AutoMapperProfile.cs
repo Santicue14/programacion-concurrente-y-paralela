@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using technical_tests_backend_ssr.Models;
+using technical_tests_backend_ssr.Models.DTOs;
 
 /// <summary>
 /// Clase de perfil de AutoMapper.
@@ -22,6 +23,18 @@ public class AutoMapperProfile : Profile
         // Creación de map para venta y ventaDTO
         CreateMap<Venta, VentaDTO>().ReverseMap();
         CreateMap<VentaDTO, Venta>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        // Marcas dentro de catalogo
+        CreateMap<Marca, MarcaDTO>().ReverseMap();
+        CreateMap<MarcaDTO, Marca>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        // Tipos de Servicio
+        CreateMap<TipoServicio, TipoServicioDTO>().ReverseMap();
+        CreateMap<TipoServicioDTO, TipoServicio>().ForMember(dest => dest.Id, opt => opt.Ignore());
+
+        // Modelos
+        CreateMap<Modelo, ModeloDTO>().ReverseMap();
+        CreateMap<ModeloDTO, Modelo>().ForMember(dest => dest.Id, opt => opt.Ignore());
     }
 }
 

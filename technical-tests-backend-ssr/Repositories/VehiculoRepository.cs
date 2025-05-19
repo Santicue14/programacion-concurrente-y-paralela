@@ -26,10 +26,7 @@ public class VehiculoRepository : IVehiculoRepository
     /// <returns></returns>
     public async Task<IEnumerable<Vehiculo>> GetAllAsync()
     {
-        return await _context.Vehiculos
-            .Include(v => v.Modelo)
-            .Include(v => v.Modelo.Marca)
-            .ToListAsync();
+        return await _context.Vehiculos.ToListAsync();
     }
 
     /// <summary>
@@ -87,6 +84,16 @@ public class VehiculoRepository : IVehiculoRepository
         if (vehículo != null)
         {
             _context.Vehiculos.Remove(vehículo);
+            await _context.SaveChangesAsync();
+        }
+    }
+
+    public async Task UpdateStockAsync(int id)
+    {
+        var vehículo = await _context.Vehiculos.FindAsync(id);
+        if (vehículo != null)
+        {
+            vehículo.Stock -= 1;
             await _context.SaveChangesAsync();
         }
     }

@@ -113,14 +113,45 @@ public class VentaService
         
         var cronometro = Stopwatch.StartNew();
         
+        // Validar que el vehiculo exista
+        var vehiculo = await _vehiculoRepository.GetByIdAsync(venta.VehiculoId);
+        if (vehiculo == null)
+        {
+            throw new Exception("El vehiculo no existe.");
+        }
+
+        // Validar que el cliente exista
+        var cliente = await _clienteRepository.GetByIdAsync(venta.ClienteId);
+        if (cliente == null)
+        {
+            throw new Exception("El cliente no existe.");
+        }
+
+        // Validar que el vehiculo tenga stock
+        if (vehiculo.Stock <= 0)
+        {
+            throw new Exception("El vehiculo no tiene stock.");
+        }
+
+
+
         // Crear las tareas para ejecutar en paralelo
+        // Actualizar el stock del vehiculo
+        var tareaStock = Task.Run(async () => {
+            vehiculo.Stock -= 1;
+            await _vehiculoRepository.UpdateStockAsync(vehiculo.Id);
+        });
+
+
         // Las hacemos como una función anónima para que se ejecute en paralelo
         var tareaVenta = Task.Run(async () => await _ventaRepository.AddAsync(venta)); 
         var tareaNotificacion = Task.Run(async () => await _notificationService.SendSaleNotificationAsync(venta)); 
 
         // Esperar a que ambas tareas terminen
-        await Task.WhenAll(tareaVenta, tareaNotificacion);
+        await Task.WhenAll(tareaVenta, tareaNotificacion, tareaStock);
 
+        venta.Vehiculo = vehiculo;
+        venta.Cliente = cliente;
         cronometro.Stop();
         Console.WriteLine($"Tiempo de ejecución de creación de venta: {cronometro.ElapsedMilliseconds} ms");
         

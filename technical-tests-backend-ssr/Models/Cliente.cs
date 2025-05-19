@@ -6,7 +6,7 @@ namespace technical_tests_backend_ssr.Models;
 public class Cliente
 {
     /// <summary>
-    /// Identificador �nico del cliente.
+    /// Identificador único del cliente.
     /// </summary>
     public int Id { get; set; }
 
@@ -25,10 +25,19 @@ public class Cliente
     /// </summary>
     public string Email { get; set; } = string.Empty;
 
-
     /// <summary>
     /// Telefono del cliente.
     /// </summary>
     public string Telefono { get; set; } = string.Empty;
 
+    // Propiedades de navegación
+    /// <summary>
+    /// Colección de servicios posventa asociados al cliente.
+    /// </summary>
+    public ICollection<ServicioPosventa>? ServiciosPosventa { get; set; }
+
+    /// <summary>
+    /// Colección de ventas realizadas por el cliente.
+    /// </summary>
+    public ICollection<Venta>? Ventas { get; set; }
 }

@@ -3,6 +3,7 @@ using technical_tests_backend_ssr.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using technical_tests_backend_ssr.Models.Enums;
 
 namespace technical_tests_backend_ssr.Data;
 /// <summary>
@@ -44,12 +45,26 @@ public class AppDbContext : DbContext
     public DbSet<Venta> Ventas { get; set; }
 
     /// <summary>
+    /// Representa la tabla de servicios de posventa en la base de datos.
+    /// </summary>
+    public DbSet<ServicioPosventa> ServiciosPosventa { get; set; }
+
+
+    /// <summary>
+    /// Representa la tabla de tipos de servicio en la base de datos.
+    /// </summary>
+    public DbSet<TipoServicio> TiposServicio { get; set; }
+
+
+
+    /// <summary>
     /// Método para configurar el modelo de la base de datos.
     /// </summary>
     /// <param name="modelBuilder"></param>
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder.Entity<Cliente>(entity =>
         {
             entity.ToTable("Clientes");
@@ -71,6 +86,10 @@ public class AppDbContext : DbContext
             entity.Property(p => p.Telefono)
                 .IsRequired()
                 .HasMaxLength(20);
+            entity.HasMany(c => c.ServiciosPosventa)
+                .WithOne(s => s.Cliente)
+                .HasForeignKey(s => s.ClienteId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         modelBuilder.Entity<Vehiculo>(entity =>
@@ -118,6 +137,46 @@ public class AppDbContext : DbContext
                 .HasForeignKey(m => m.MarcaId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        // Configuración de TiposServicio
+        modelBuilder.Entity<TipoServicio>(entity =>
+        {
+            entity.ToTable("TiposServicio");
+            entity.HasKey(t => t.Id);
+            entity.Property(t => t.Nombre).IsRequired().HasMaxLength(100);
+            entity.Property(t => t.Descripcion).IsRequired().HasMaxLength(500);
+            entity.Property(t => t.Activo).IsRequired();
+            entity.Property(t => t.FechaCreacion).IsRequired();
+
+            // Relación con ServiciosPosventa
+            entity.HasMany(t => t.ServiciosPosventa)
+                .WithOne(s => s.TipoServicio)
+                .HasForeignKey(s => s.TipoServicioId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
+        // Configuración de ServiciosPosventa
+        modelBuilder.Entity<ServicioPosventa>(entity =>
+        {
+            entity.ToTable("ServiciosPosventa");
+            entity.HasKey(s => s.Id);
+            entity.HasOne(s => s.Cliente)
+                .WithMany(c => c.ServiciosPosventa)
+                .HasForeignKey(s => s.ClienteId)
+                .OnDelete(DeleteBehavior.Restrict);
+            entity.Property(s => s.Descripcion).IsRequired().HasMaxLength(500);
+            entity.Property(s => s.FechaSolicitud).IsRequired();
+            entity.Property(s => s.Estado).IsRequired().HasMaxLength(50);
+            entity.Property(s => s.Observaciones).HasMaxLength(1000);
+
+
+            // Relación con TipoServicio
+            entity.HasOne(s => s.TipoServicio)
+                .WithMany(t => t.ServiciosPosventa)
+                .HasForeignKey(s => s.TipoServicioId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         AppDbContext.Seed(modelBuilder);
     }
 
@@ -221,5 +280,55 @@ public class AppDbContext : DbContext
         }
 
         modelBuilder.Entity<Venta>().HasData(ventas);
+
+        // Tipos de Servicio
+        modelBuilder.Entity<TipoServicio>().HasData(
+            new TipoServicio { Id = 1, Nombre = "Mantenimiento Preventivo", Descripcion = "Servicio de mantenimiento programado", Activo = true, FechaCreacion = DateTime.UtcNow },
+            new TipoServicio { Id = 2, Nombre = "Reparación Mecánica", Descripcion = "Reparación de componentes mecánicos", Activo = true, FechaCreacion = DateTime.UtcNow },
+            new TipoServicio { Id = 3, Nombre = "Garantía", Descripcion = "Servicios cubiertos por garantía", Activo = true, FechaCreacion = DateTime.UtcNow },
+            new TipoServicio { Id = 4, Nombre = "Diagnóstico", Descripcion = "Diagnóstico de problemas", Activo = true, FechaCreacion = DateTime.UtcNow },
+            new TipoServicio { Id = 5, Nombre = "Limpieza y Detallado", Descripcion = "Servicio de limpieza y detallado", Activo = true, FechaCreacion = DateTime.UtcNow }
+        );
+
+        // Servicios Posventa
+        var serviciosPosventa = new List<ServicioPosventa>();
+        var estados = Enum.GetValues(typeof(EstadoServicio)).Cast<EstadoServicio>().ToArray();
+        var descripciones = new[]
+        {
+            "Cambio de aceite y filtros",
+            "Revisión de frenos",
+            "Alineación y balanceo",
+            "Reparación de motor",
+            "Cambio de transmisión",
+            "Revisión de suspensión",
+            "Cambio de batería",
+            "Reparación de aire acondicionado",
+            "Cambio de correa de distribución",
+            "Revisión de sistema eléctrico"
+        };
+
+        for (int i = 1; i <= 30; i++)
+        {
+            var clienteId = random.Next(1, 11); // 10 clientes
+            var tipoServicioId = random.Next(1, 6); // 5 tipos de servicio
+            var fechaSolicitud = DateTime.UtcNow.AddDays(-random.Next(0, 30));
+            var fechaProgramada = fechaSolicitud.AddDays(random.Next(1, 15));
+            var estado = estados[random.Next(estados.Length)];
+            var descripcion = descripciones[random.Next(descripciones.Length)];
+
+            serviciosPosventa.Add(new ServicioPosventa
+            {
+                Id = i,
+                ClienteId = clienteId,
+                TipoServicioId = tipoServicioId,
+                Descripcion = descripcion,
+                FechaSolicitud = fechaSolicitud,
+                FechaProgramada = fechaProgramada,
+                Estado = (int)estado
+            
+            });
+        }
+
+        modelBuilder.Entity<ServicioPosventa>().HasData(serviciosPosventa);
     }
 }
