@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VehicleService } from '../../services/vehicles-api.service';
 import { Location } from '@angular/common';  // Para regresar al lugar anterior
+import { Vehicle } from '../../../../core/models/vehicle.model';
 
 import * as $ from 'jquery';
 import {Fancybox} from "@fancyapps/ui";
@@ -107,36 +108,46 @@ private _: any;
   }
 
   onSubmit(): void {
-	  console.log('Submitting form...');
-	  console.log('isEditMode:', this.isEditMode);
-	  console.log('Vehicle:', this.vehicle);
+    // Obtener los nombres de marca y modelo para enviar al backend
+    const modeloSeleccionado = this.modelos.find(m => m.id == this.vehicle.modelo);
+    const marcaSeleccionada = this.marcas.find(m => m.id == this.vehicle.marca);
 
-	  if (this.isEditMode) {
-		console.log('Updating vehicle...');
-		this.vehicleService.updateVehicle(this.vehicle.id, this.vehicle).subscribe(
-		  (updatedVehicle) => {
-			console.log('Updated vehicle:', updatedVehicle);
-			Fancybox.close();
-			this.router.navigate(['/vehicles']);
-		  },
-		  (error) => {
-			console.error('Error updating vehicle', error);
-		  }
-		);
-	  } else {
-		console.log('Creating new vehicle...');
-		this.vehicleService.createVehicle(this.vehicle).subscribe(
-		  (newVehicle) => {
-			console.log('Created vehicle:', newVehicle);
-			console.log('Token before navigate:', localStorage.getItem('access_token'));
-			this.router.navigate(['/vehicles']);
-		  },
-		  (error) => {
-			console.error('Error creating vehicle', error);
-		  }
-		);
-	  }
-	}
+    // Crear objeto a enviar al backend
+    const vehiculoDTO: any = {
+      id: this.vehicle.id,
+      anio: this.vehicle.anio,
+      precio: typeof this.vehicle.precio === 'string' ? 
+              parseFloat(this.vehicle.precio.replace(/,/g, '')) : 
+              this.vehicle.precio,
+      stock: this.vehicle.stock,
+      ModeloId: parseInt(this.vehicle.modelo.toString())
+    };
+
+    if (this.isEditMode) {
+      console.log('Updating vehicle...', vehiculoDTO);
+      this.vehicleService.updateVehicle(this.vehicle.id, vehiculoDTO).subscribe(
+        (updatedVehicle) => {
+          console.log('Updated vehicle:', updatedVehicle);
+          Fancybox.close();
+          this.router.navigate(['/vehicles']);
+        },
+        (error) => {
+          console.error('Error updating vehicle', error);
+        }
+      );
+    } else {
+      console.log('Creating new vehicle...', vehiculoDTO);
+      this.vehicleService.createVehicle(vehiculoDTO).subscribe(
+        (newVehicle) => {
+          console.log('Created vehicle:', newVehicle);
+          this.router.navigate(['/vehicles']);
+        },
+        (error) => {
+          console.error('Error creating vehicle', error);
+        }
+      );
+    }
+  }
 
   goBack(): void {
 	Fancybox.close();

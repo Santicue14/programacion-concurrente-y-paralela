@@ -45,6 +45,14 @@
               'fa-sort-down': sortColumn === 'modelo' && sortDirection === 'desc'
             }"></i>
           </th>
+          <th (click)="sortBy('anio')" class="sortable">
+            Año
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'anio',
+              'fa-sort-up': sortColumn === 'anio' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'anio' && sortDirection === 'desc'
+            }"></i>
+          </th>
           <th (click)="sortBy('stock')" class="sortable">
             Stock
             <i class="fas" [ngClass]="{
@@ -69,7 +77,9 @@
           <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
           <td>{{ vehicle.marca }}</td>
           <td>{{ vehicle.modelo }}</td>
+          <td>{{ vehicle.anio }}</td>
           <td>
+
             <span class="badge" [ngClass]="vehicle.stock ? 'bg-success' : 'bg-warning'">
               {{ vehicle.stock ? 'En Stock' : 'Agotado' }}
             </span>

@@ -1,7 +1,7 @@
 export class Vehicle {
   id: number;
-  marca: string;
-  modelo: string;
+  marca: string | number;
+  modelo: string | number;
   anio: number;
   precio: string;
   stock: number;

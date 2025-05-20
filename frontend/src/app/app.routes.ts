@@ -15,6 +15,12 @@ export const routes: Routes = [
       import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
+    path: 'clients',
+    loadChildren: () =>
+      import('./features/clients/clients.module').then((m) => m.ClientsModule),
+    canActivate: [AuthGuard],
+  },
+  {
     path: '**',
     redirectTo: 'vehicles',//Ruta por defecto
   },

@@ -67,17 +67,17 @@
           />
         </div>
 
-        <!-- Stock en una línea completa -->
+        <!-- Stock es un numero de la cantidad que hay en stock-->
         <div class="form-group full-width">
+          <label for="stock">Stock</label>
           <div class="form-check">
             <input
-              type="checkbox"
+              type="number"
               id="stock"
-              class="form-check-input"
+              class="form-control"
               [(ngModel)]="vehicle.stock"
               name="stock"
             />
-            <label class="form-check-label" for="stock">Disponible en stock</label>
           </div>
         </div>
 

@@ -37,23 +37,23 @@ export class VehicleService {
   }
 
   // Crear vehiculo
-  createVehicle(vehicle: Vehicle): Observable<Vehicle> {
+  createVehicle(vehicle: any): Observable<any> {
     const token = localStorage.getItem('access_token');
-	if (!token) { 
-		this.router.navigate(['/login']);
-	}
+    if (!token) { 
+      this.router.navigate(['/login']);
+    }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<Vehicle>(this.apiVehiculosUrl, vehicle, { headers });
+    return this.http.post<any>(this.apiVehiculosUrl, vehicle, { headers });
   }
 
   // Actualizar vehiculo
-  updateVehicle(id: number, vehicleData: Vehicle): Observable<Vehicle> {
+  updateVehicle(id: number, vehicleData: any): Observable<any> {
     const token = localStorage.getItem('access_token');
-	if (!token) { 
-		this.router.navigate(['/login']);
-	}
-	const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.put<Vehicle>(`${this.apiVehiculosUrl}/${id}`, vehicleData, { headers });
+    if (!token) { 
+      this.router.navigate(['/login']);
+    }
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.put<any>(`${this.apiVehiculosUrl}/${id}`, vehicleData, { headers });
   }
   
   // Borrar vehiculo

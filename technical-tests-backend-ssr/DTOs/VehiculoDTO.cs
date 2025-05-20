@@ -19,17 +19,22 @@ public class VehiculoDTO
     public string Modelo { get; set; } = string.Empty;
 
     /// <summary>
-    /// A�o del veh�culo.
+    /// ID del modelo del vehículo.
+    /// </summary>
+    public int ModeloId { get; set; }
+
+    /// <summary>
+    /// Ao del vehculo.
     /// </summary>
     public int Anio { get; set; }
 
     /// <summary>
-    /// Precio del veh�culo.
+    /// Precio del vehculo.
     /// </summary>
     public decimal Precio { get; set; }
 
     /// <summary>
-    /// Cantidad de veh�culos disponibles en stock.
+    /// Cantidad de vehculos disponibles en stock.
     /// </summary>
     public int Stock { get; set; } = 0;
 }

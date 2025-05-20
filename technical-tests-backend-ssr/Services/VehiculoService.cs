@@ -81,6 +81,26 @@ public class VehiculoService
     /// <returns></returns>
     public async Task<Vehiculo> AddVehicleAsync(Vehiculo vehiculo)
     {
+        // Buscar el modelo
+        var modelos = await _catalogoService.GetModelosAsync();
+        var modeloEncontrado = modelos
+            .AsParallel()
+            .FirstOrDefault(m => m.Id == vehiculo.ModeloId);
+        if (modeloEncontrado == null)
+        {
+            throw new Exception("Modelo no encontrado");
+        }
+
+//Pasamos al repositorio el vehículo con el modelo encontrado
+        var vehiculoDTO = new VehiculoDTO
+        {
+            Id = vehiculo.Id,
+            Modelo = modeloEncontrado.Nombre,
+            Marca = modeloEncontrado.MarcaNombre,
+            Anio = vehiculo.Anio,
+            Precio = vehiculo.Precio,
+            Stock = vehiculo.Stock
+        };
         await _vehiculoRepository.AddAsync(vehiculo);
         return vehiculo;
     }

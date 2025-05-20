@@ -114,8 +114,6 @@ public class AppDbContext : DbContext
                 .WithMany(m => m.Vehiculos)
                 .HasForeignKey(v => v.ModeloId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-
         });
 
         modelBuilder.Entity<Marca>(entity =>

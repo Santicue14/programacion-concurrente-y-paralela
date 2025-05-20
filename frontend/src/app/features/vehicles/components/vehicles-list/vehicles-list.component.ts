@@ -33,7 +33,7 @@ export class VehicleListComponent implements OnInit {
   sortDirection: 'asc' | 'desc' = 'asc';
 
   selectedVehicle: Vehicle | null = null;
-  vehicle: Vehicle = {} as Vehicle; // Creamos una tarea vacía para poder usarla en el modal
+  vehicle: Vehicle = {} as Vehicle; // Creamos un vehículo vacío para poder usarlo en el modal
 
   constructor(private vehicleService: VehicleService, private router: Router) { }
 
@@ -45,7 +45,7 @@ export class VehicleListComponent implements OnInit {
     this.vehicleService.getVehiculos().subscribe({
       next: (data) => {
         this.vehicles = data;
-        this.marcas = [...new Set(data.map(v => v.marca))];
+        this.marcas = [...new Set(data.map(v => v.marca))].filter((marca): marca is string => typeof marca === 'string');
         this.filterVehicles();
       },
       error: (error) => {
@@ -71,8 +71,8 @@ export class VehicleListComponent implements OnInit {
     // Primero aplica los filtros
     this.filteredVehicles = this.vehicles.filter(vehicle => {
       const matchesSearch = !this.searchTerm || 
-        vehicle.marca.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-        vehicle.modelo.toLowerCase().includes(this.searchTerm.toLowerCase());
+        (typeof vehicle.marca === 'string' && vehicle.marca.toLowerCase().includes(this.searchTerm.toLowerCase())) ||
+        (typeof vehicle.modelo === 'string' && vehicle.modelo.toLowerCase().includes(this.searchTerm.toLowerCase()));
       
       const matchesMarca = !this.selectedMarca || 
         vehicle.marca === this.selectedMarca;
@@ -190,10 +190,10 @@ export class VehicleListComponent implements OnInit {
     if (this.selectedVehicle) {
       this.vehicleService.deleteVehicle(this.selectedVehicle.id).subscribe(
         () => {
-          console.log('Tarea borrada:', this.selectedVehicle);
-		  // Limpia la tarea seleccionada
+          console.log('Vehículo borrado:', this.selectedVehicle);
+		  // Limpia el vehículo seleccionado
           this.selectedVehicle = null; 
-          // Recarga las tareas o actualiza la vista
+          // Recarga los vehículos o actualiza la vista
           this.loadVehicles();
         },
         (error) => {

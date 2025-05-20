@@ -1,0 +1,102 @@
+<div class="container form-container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card">
+        <div class="card-header">
+          <h2>{{ isEditMode ? 'Editar Cliente' : 'Nuevo Cliente' }}</h2>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center p-4">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Cargando...</span>
+            </div>
+          </div>
+
+          <div *ngIf="error" class="alert alert-danger">
+            {{ error }}
+          </div>
+
+          <form (ngSubmit)="onSubmit()" *ngIf="!loading">
+            <div class="form-grid">
+              <!-- Nombre y Apellido en la misma línea -->
+              <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input
+                  type="text"
+                  id="nombre"
+                  class="form-control"
+                  [(ngModel)]="client.nombre"
+                  name="nombre"
+                  required
+                  [ngClass]="{ 'is-invalid': submitted && !client.nombre }"
+                />
+                <div *ngIf="submitted && !client.nombre" class="invalid-feedback">
+                  El nombre es requerido
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input
+                  type="text"
+                  id="apellido"
+                  class="form-control"
+                  [(ngModel)]="client.apellido"
+                  name="apellido"
+                  required
+                  [ngClass]="{ 'is-invalid': submitted && !client.apellido }"
+                />
+                <div *ngIf="submitted && !client.apellido" class="invalid-feedback">
+                  El apellido es requerido
+                </div>
+              </div>
+
+              <!-- Email y Teléfono en la misma línea -->
+              <div class="form-group">
+                <label for="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  class="form-control"
+                  [(ngModel)]="client.email"
+                  name="email"
+                  required
+                  [ngClass]="{ 'is-invalid': submitted && !client.email }"
+                />
+                <div *ngIf="submitted && !client.email" class="invalid-feedback">
+                  El email es requerido
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input
+                  type="tel"
+                  id="telefono"
+                  class="form-control"
+                  [(ngModel)]="client.telefono"
+                  name="telefono"
+                  required
+                  [ngClass]="{ 'is-invalid': submitted && !client.telefono }"
+                />
+                <div *ngIf="submitted && !client.telefono" class="invalid-feedback">
+                  El teléfono es requerido
+                </div>
+              </div>
+
+              <!-- Botones de acción -->
+              <div class="form-group btns-actions full-width">
+                <button type="button" class="btn btn-secondary" (click)="goBack()">
+                  Volver
+                </button>
+                <button type="submit" class="btn btn-primary">
+                  {{ isEditMode ? 'Actualizar Cliente' : 'Crear Cliente' }}
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

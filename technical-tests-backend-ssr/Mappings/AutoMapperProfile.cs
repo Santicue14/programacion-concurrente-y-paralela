@@ -17,8 +17,12 @@ public class AutoMapperProfile : Profile
         CreateMap<ClienteDTO, Cliente>().ForMember(dest => dest.Id, opt => opt.Ignore());
 
         // Creación de map para vehículo y vehiculoDTO
-        CreateMap<Vehiculo, VehiculoDTO>().ReverseMap();
-        CreateMap<VehiculoDTO, Vehiculo>().ForMember(dest => dest.Id, opt => opt.Ignore());
+        CreateMap<Vehiculo, VehiculoDTO>()
+            .ForMember(dest => dest.Marca, opt => opt.MapFrom(src => src.Modelo != null && src.Modelo.Marca != null ? src.Modelo.Marca.Nombre : ""))
+            .ForMember(dest => dest.Modelo, opt => opt.MapFrom(src => src.Modelo != null ? src.Modelo.Nombre : ""));
+        CreateMap<VehiculoDTO, Vehiculo>()
+            .ForMember(dest => dest.Modelo, opt => opt.Ignore())
+            .ForMember(dest => dest.ModeloId, opt => opt.MapFrom(src => src.ModeloId));
 
         // Creación de map para venta y ventaDTO
         CreateMap<Venta, VentaDTO>().ReverseMap();

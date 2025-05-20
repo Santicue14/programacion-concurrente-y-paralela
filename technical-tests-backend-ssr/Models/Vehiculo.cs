@@ -1,37 +1,37 @@
 namespace technical_tests_backend_ssr.Models;
 
 /// <summary>
-/// Vehículo es el producto principal de nuestra Concesionaria.
+/// Vehï¿½culo es el producto principal de nuestra Concesionaria.
 /// </summary>
 public class Vehiculo
 {
     /// <summary>
-    /// Identificador único del vehículo.
+    /// Identificador ï¿½nico del vehï¿½culo.
     /// </summary>
     public int Id { get; set; }
 
     /// <summary>
-    /// Modelo del vehículo.
+    /// Modelo del vehï¿½culo.
     /// </summary>
     public int ModeloId { get; set; }
     /// <summary>
-    /// Modelo del vehículo.
+    /// Modelo del vehï¿½culo.
     /// </summary>
     public Modelo? Modelo { get; set; }
 
 
     /// <summary>
-    /// Año del vehículo.
+    /// Aï¿½o del vehï¿½culo.
     /// </summary>
     public int Anio { get; set; }
 
     /// <summary>
-    /// Precio del vehículo.
+    /// Precio del vehï¿½culo.
     /// </summary>
     public decimal Precio { get; set; }
 
     /// <summary>
-    /// Stock del vehículo.
+    /// Stock del vehï¿½culo.
     /// </summary>
     public int Stock { get; set; } = 0;
 }

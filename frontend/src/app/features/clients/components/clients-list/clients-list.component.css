@@ -1,0 +1,33 @@
+.table {
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #f8f9fa;
+}
+
+.table th {
+  border-top: none;
+  font-weight: 600;
+}
+
+.btn-primary {
+  background-color: #4a90e2;
+  border-color: #4a90e2;
+}
+
+.btn-primary:hover {
+  background-color: #357abd;
+  border-color: #357abd;
+}
+
+.table tbody tr:hover {
+  background-color: #f1f5f9;
+}
+
+.spinner-border {
+  color: #4a90e2;
+  margin: 2rem auto;
+} 

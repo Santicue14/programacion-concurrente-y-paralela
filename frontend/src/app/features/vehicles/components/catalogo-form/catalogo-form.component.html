@@ -4,19 +4,6 @@
 
     <form (ngSubmit)="onSubmit()">
       <div class="form-grid">
-        <div class="form-group full-width">
-          <label for="nombre">{{ type === 'marca' ? 'Nombre de la Marca' : 'Nombre del Modelo' }}</label>
-          <input
-            type="text"
-            id="nombre"
-            class="form-control"
-            [(ngModel)]="formData.nombre"
-            name="nombre"
-            required
-            placeholder="{{ type === 'marca' ? 'Ingrese el nombre de la marca' : 'Ingrese el nombre del modelo' }}"
-          />
-        </div>
-
         <div class="form-group full-width" *ngIf="type === 'modelo'">
           <label for="marcaId">Marca</label>
           <select
@@ -32,6 +19,22 @@
             </option>
           </select>
         </div>
+
+        <div class="form-group full-width">
+          <label for="nombre">{{ type === 'marca' ? 'Nombre de la Marca' : 'Nombre del Modelo' }}</label>
+          <input
+            type="text"
+            id="nombre"
+            class="form-control"
+            [(ngModel)]="formData.nombre"
+            name="nombre"
+            required
+            [disabled]="type === 'modelo' && !formData.marcaId"
+            placeholder="{{ type === 'marca' ? 'Ingrese el nombre de la marca' : 'Ingrese el nombre del modelo' }}"
+          />
+        </div>
+
+       
 
         <!-- Botones de acción -->
         <div class="form-group btns-actions full-width">

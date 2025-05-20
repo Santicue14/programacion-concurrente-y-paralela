@@ -88,6 +88,26 @@ export class CatalogoFormComponent implements OnInit {
   }
 
   onSubmit(): void {
+    //Evaluar si está creando una marca o un modelo y llamar a service para crearlo
+    if (this.type === 'marca') {
+      this.vehicleService.createMarca(this.formData).subscribe({
+        next: () => {
+          this.router.navigate(['/vehicles']);
+        },
+        error: (error) => {
+          console.error('Error al crear marca:', error);
+        }
+      });
+    } else {
+      this.vehicleService.createModelo(this.formData).subscribe({
+        next: () => {
+          this.router.navigate(['/vehicles']);
+        },
+        error: (error) => {
+          console.error('Error al crear modelo:', error);
+        }
+      });
+    }
 	}
 
   goBack(): void {
