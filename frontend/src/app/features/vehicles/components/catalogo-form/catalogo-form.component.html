@@ -1,0 +1,52 @@
+<div id="taskFormModal" class="form-modal-container">
+  <div class="container form-container">
+    <h2>{{ type === 'marca' ? 'Nueva Marca' : 'Nuevo Modelo' }}</h2>
+
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <div class="form-group full-width">
+          <label for="nombre">{{ type === 'marca' ? 'Nombre de la Marca' : 'Nombre del Modelo' }}</label>
+          <input
+            type="text"
+            id="nombre"
+            class="form-control"
+            [(ngModel)]="formData.nombre"
+            name="nombre"
+            required
+            placeholder="{{ type === 'marca' ? 'Ingrese el nombre de la marca' : 'Ingrese el nombre del modelo' }}"
+          />
+        </div>
+
+        <div class="form-group full-width" *ngIf="type === 'modelo'">
+          <label for="marcaId">Marca</label>
+          <select
+            id="marcaId"
+            class="form-control"
+            [(ngModel)]="formData.marcaId"
+            name="marcaId"
+            required
+          >
+            <option value="">Seleccione una marca</option>
+            <option *ngFor="let marca of marcas" [value]="marca.id">
+              {{marca.nombre}}
+            </option>
+          </select>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="form-group btns-actions full-width">
+          <button type="button" class="btn btn-secondary" (click)="goBack()">
+            Volver
+          </button>
+          <button
+            type="submit"
+            class="btn btn-custom"
+            [disabled]="!formData.nombre || (type === 'modelo' && !formData.marcaId)"
+          >
+            {{ type === 'marca' ? 'Crear Marca' : 'Crear Modelo' }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

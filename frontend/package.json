@@ -20,6 +20,7 @@
     "@angular/router": "^19.0.0",
     "@fancyapps/fancybox": "^3.5.7",
     "@fancyapps/ui": "^5.0.36",
+    "@ng-select/ng-select": "^14.7.0",
     "bootstrap": "^5.3.3",
     "jquery": "^3.7.1",
     "rxjs": "~7.8.0",

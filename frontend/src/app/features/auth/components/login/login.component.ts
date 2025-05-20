@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
           // Si la verificación es exitosa, mostrar mensaje y redirigir
           this.notificationMessage = response.message;
           setTimeout(() => {
-            this.router.navigate(['/tasks']);
+            this.router.navigate(['/vehicles']);
           }, 2000); // Redirigir después de 2 segundos para que el usuario vea el mensaje
         }
       },

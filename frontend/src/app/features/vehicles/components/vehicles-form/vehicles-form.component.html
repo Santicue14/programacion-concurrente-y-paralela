@@ -1,72 +1,100 @@
-<div id="taskFormModal">
-<div class="container form-container">
-  <h2 class="text-center">{{ vehicle.id ? 'Editar Vehiculo' : 'Nuevo Vehiculo' }}</h2>
+<div id="taskFormModal" class="form-modal-container">
+  <div class="container form-container">
+    <h2>{{ vehicle.id ? 'Editar Vehiculo' : 'Nuevo Vehiculo' }}</h2>
 
-  <form (ngSubmit)="onSubmit()">
-    <!-- Title Field -->
-    <div class="form-group">
-      <label for="title">Título</label>
-      <input
-        type="text"
-        id="title"
-        class="form-control"
-        [(ngModel)]="vehicle.marca"
-        name="marca"
-        required
-        placeholder="Ingrese la marca del vehiculo"
-      />
-    </div>
+    <form (ngSubmit)="onSubmit()">
+      <div class="form-grid">
+        <!-- Marca y Modelo en la misma línea -->
+        <div class="form-group">
+          <label for="marca">Marca</label>
+          <select 
+            class="form-control" 
+            id="marca" 
+            name="marca" 
+            [(ngModel)]="vehicle.marca"
+            (change)="onMarcaChange()"
+            required>
+            <option value="">Seleccione una marca</option>
+            <option *ngFor="let marca of marcas" [value]="marca.id">
+              {{marca.nombre}}
+            </option>
+          </select>
+          <a [href]="['/vehicles/catalogo/marca']" class="add-link">Agregar Marca</a>
+        </div>
 
-    <!-- Description Field -->
-    <div class="form-group">
-      <label for="description">Descripción</label>
-      <textarea
-        id="description"
-        class="form-control"
-        [(ngModel)]="vehicle.modelo"
-        name="modelo"
-        placeholder="Ingrese el modelo del vehiculo"
-      ></textarea>
-    </div>
+        <div class="form-group">
+          <label for="modelo">Modelo</label>
+          <select 
+            class="form-control" 
+            id="modelo" 
+            name="modelo" 
+            [(ngModel)]="vehicle.modelo"
+            required>
+            <option value="">Seleccione un modelo</option>
+            <option *ngFor="let modelo of filteredModelos" [value]="modelo.id">
+              {{modelo.nombre}}
+            </option>
+          </select>
+          <a [href]="['/vehicles/catalogo/modelo']" class="add-link">Agregar Modelo</a>
+        </div>
 
-    <!-- Year Field -->
-    <div class="form-group">
-      <label for="anio">Año</label>
-      <input
-        type="number"
-        id="anio"
-        class="form-control"
-        [(ngModel)]="vehicle.anio"
-        name="anio"
-      />
-    </div>
+        <!-- Año y Precio en la misma línea -->
+        <div class="form-group">
+          <label for="anio">Año</label>
+          <select
+            id="anio"
+            class="form-control"
+            [(ngModel)]="vehicle.anio"
+            name="anio"
+            required
+          >
+            <option value="">Seleccione un año</option>
+            <option *ngFor="let year of years" [value]="year">
+              {{year}}
+            </option>
+          </select>
+        </div>
 
-    <!-- Completed Field -->
-    <div class="form-check">
-      <input
-        type="checkbox"
-        id="stock"
-        class="form-check-input"
-        [(ngModel)]="vehicle.stock"
-        name="stock"
-      />
-      <label class="form-check-label" for="stock">¿Tarea Terminada?</label>
-    </div>
+        <div class="form-group">
+          <label for="precio">Precio</label>
+          <input
+            type="text"
+            id="precio"
+            class="form-control"
+            [(ngModel)]="vehicle.precio"
+            name="precio"
+            required
+          />
+        </div>
 
-    <!-- Submit Button -->
-    <div class="form-group mt-3">
-      <button
-        type="submit"
-        class="btn btn-custom w-100"
-        [disabled]="!vehicle.marca || !vehicle.modelo"
-      >
-        {{ vehicle.id ? 'Actualizar Vehiculo' : 'Crear Vehiculo' }}
-      </button>
-    </div>
-  </form>
+        <!-- Stock en una línea completa -->
+        <div class="form-group full-width">
+          <div class="form-check">
+            <input
+              type="checkbox"
+              id="stock"
+              class="form-check-input"
+              [(ngModel)]="vehicle.stock"
+              name="stock"
+            />
+            <label class="form-check-label" for="stock">Disponible en stock</label>
+          </div>
+        </div>
 
-  <div class="form-group mt-3">
-    <button class="btn btn-secondary w-100" (click)="goBack()">Cancelar</button>
+        <!-- Botones de acción -->
+        <div class="form-group btns-actions full-width">
+          <button type="button" class="btn btn-secondary" (click)="goBack()">
+            Volver
+          </button>
+          <button
+            type="submit"
+            class="btn btn-custom"
+            [disabled]="!vehicle.marca || !vehicle.modelo"
+          >
+            {{ vehicle.id ? 'Actualizar Vehiculo' : 'Crear Vehiculo' }}
+          </button>
+        </div>
+      </div>
+    </form>
   </div>
-</div>
 </div>

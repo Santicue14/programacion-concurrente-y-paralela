@@ -133,16 +133,3 @@ input[type="datetime-local"] {
 .fancybox-content {
   opacity: 1; /* Asegúrate de que el contenido del modal sea opaco */
 }
-
-.add-link {
-  display: block;
-  margin-top: 0.5rem;
-  color: #4a90e2;
-  text-decoration: none;
-  font-size: 0.9rem;
-}
-
-.add-link:hover {
-  text-decoration: underline;
-  color: #357abd;
-}

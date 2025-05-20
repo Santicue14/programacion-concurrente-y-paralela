@@ -1,83 +1,136 @@
 <div class="container vehicles-list-container">
-  <h1 class="vehicles-list-title">Lista de Vehiculos</h1>
+  <h1 class="vehicles-list-title">Lista de Vehiculos Santicue Motors</h1>
 
-  <p class="vehicle-actions"><button class="btn btn-edit btn-sm" (click)="onCreateVehicle()">Nuevo</button></p>
-  <table class="table vehicle-table">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Título</th>
-        <th>Descripción</th>
-        <th>Estado</th>
-        <th>Fecha de Vencimiento</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let vehicle of vehicles; let i = index">
-        <td>{{ i + 1 }}</td>
-        <td>{{ vehicle.marca }}</td>
-        <td>{{ vehicle.modelo }}</td>
-        <td>
-          <span class="badge" [ngClass]="vehicle.stock ? 'bg-success' : 'bg-warning'">
-			  {{ vehicle.stock ? 'En Stock' : 'Agotado' }}
-		  </span>
+  <!-- Barra de búsqueda y filtros -->
+  <div class="search-filter-container">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Buscar vehículos..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterVehicles()">
+    </div>
+    <div class="filter-box">
+      <select class="form-select" [(ngModel)]="selectedMarca" (change)="filterVehicles()">
+        <option value="">Todas las marcas</option>
+        <option *ngFor="let marca of marcas" [value]="marca">{{marca}}</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" (click)="onCreateVehicle()">
+      <i class="fas fa-plus"></i> Nuevo Vehículo
+    </button>
+  </div>
 
-        </td>
-        <td>{{ vehicle.precio }}</td>
-        <td class="vehicle-actions">
-          <button class="btn btn-edit btn-sm" (click)="onEditVehicle(vehicle)">Editar</button>
-		  
-          <button class="btn btn-delete btn-sm" (click)="onDeleteVehicle(vehicle)">Eliminar</button>
-        </td>
-      </tr>
-      <tr *ngIf="vehicles.length === 0">
-        <td colspan="6" class="no-vehicles-message">No hay vehiculos para mostrar.</td>
-      </tr>
-    </tbody>
-  </table>
-  
+  <!-- Tabla de vehículos -->
+  <div class="table-responsive">
+    <table class="table vehicle-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th (click)="sortBy('marca')" class="sortable">
+            Marca
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'marca',
+              'fa-sort-up': sortColumn === 'marca' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'marca' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('modelo')" class="sortable">
+            Modelo
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'modelo',
+              'fa-sort-up': sortColumn === 'modelo' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'modelo' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('stock')" class="sortable">
+            Stock
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'stock',
+              'fa-sort-up': sortColumn === 'stock' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'stock' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('precio')" class="sortable">
+            Valor
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'precio',
+              'fa-sort-up': sortColumn === 'precio' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'precio' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let vehicle of paginatedVehicles; let i = index">
+          <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+          <td>{{ vehicle.marca }}</td>
+          <td>{{ vehicle.modelo }}</td>
+          <td>
+            <span class="badge" [ngClass]="vehicle.stock ? 'bg-success' : 'bg-warning'">
+              {{ vehicle.stock ? 'En Stock' : 'Agotado' }}
+            </span>
+          </td>
+          <td>{{ vehicle.precio | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td class="vehicle-actions">
+            <button class="btn btn-edit btn-sm" (click)="onEditVehicle(vehicle)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-delete btn-sm" (click)="onDeleteVehicle(vehicle)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="paginatedVehicles.length === 0">
+          <td colspan="6" class="no-vehicles-message">
+            <i class="fas fa-car"></i>
+            No hay vehículos para mostrar.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <nav aria-label="Navegación de páginas">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Anterior">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+          <a class="page-link" (click)="changePage(page)">{{page}}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
   <!-- Modal de Confirmación -->
-<div
-  class="modal fade"
-  id="deleteVehicleModal"
-  tabindex="-1"
-  aria-labelledby="deleteVehicleModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteVehicleModalLabel">Confirmar Borrado</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        ¿Estás seguro de que deseas borrar el vehiculo "<strong>{{ selectedVehicle?.marca }}</strong>"?
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-secondary"
-          data-bs-dismiss="modal"
-        >
-          Cancelar
-        </button>
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="confirmDelete()"
-        >
-          Borrar
-        </button>
+  <div class="modal fade" id="deleteVehicleModal" tabindex="-1" aria-labelledby="deleteVehicleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteVehicleModalLabel">Confirmar Borrado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Estás seguro de que deseas borrar el vehículo "<strong>{{ selectedVehicle?.marca }}</strong>"?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Borrar</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
-  
 </div>

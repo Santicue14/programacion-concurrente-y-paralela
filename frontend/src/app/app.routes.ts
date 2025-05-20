@@ -16,7 +16,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'auth/login', // Cambia esto según tu necesidad.
+    redirectTo: 'vehicles',//Ruta por defecto
   },
 ];
 

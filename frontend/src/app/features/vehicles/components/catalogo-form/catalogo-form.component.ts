@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
+
 import { VehicleService } from '../../services/vehicles-api.service';
 import { Location } from '@angular/common';  // Para regresar al lugar anterior
 
@@ -10,45 +11,33 @@ import * as $ from 'jquery';
 import {Fancybox} from "@fancyapps/ui";
 
 @Component({
-  selector: 'app-vehicles-form',
-  templateUrl: './vehicles-form.component.html',
-  styleUrls: ['./vehicles-form.component.css'],
+  selector: 'app-catalogo-form',
+  templateUrl: './catalogo-form.component.html',
+  styleUrls: ['./catalogo-form.component.css'],
   imports: [FormsModule, CommonModule, NgSelectModule],
   standalone: true
 })
 
-export class VehicleFormComponent implements OnInit {
+export class CatalogoFormComponent implements OnInit {
   marcas: any[] = [];
+  marca: string = '';
   modelos: any[] = [];
+  modelo: string = '';
   filteredModelos: any[] = [];
-  years: number[] = [];
-  vehicle: Vehicle = {
-    id: 0,
-    marca: '',
-    modelo: '',
-    anio: 0,
-    precio: '',
-    stock: 0
-  };
-  
+
   isEditMode: boolean = false;
-private _: any;
+  type: 'marca' | 'modelo' = 'marca';
+  formData: any = {
+    nombre: '',
+    marcaId: ''
+  };
 
   constructor(
     private vehicleService: VehicleService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.generateYears();
-  }
+  ) {}
 
-  private generateYears(): void {
-    const currentYear = new Date().getFullYear();
-    this.years = Array.from(
-      { length: currentYear - 1959 },
-      (_, i) => currentYear - i
-    );
-  }
 
   ngOnInit(): void {
 	this.loadMarcas();
@@ -77,20 +66,12 @@ private _: any;
       if (fragment === 'vehicleFormModal') {
         this.openModal();
       }
-    });
-    const vehicleId = this.route.snapshot.paramMap.get('id');
-    
-    if (vehicleId) {
-      this.isEditMode = true;
-      this.vehicleService.getVehicleById(+vehicleId).subscribe(
-        (vehicle: Vehicle) => {
-          this.vehicle = vehicle;
-        },
-        (error) => {
-          console.error('Error fetching vehicle', error);
-          this.router.navigate(['/vehicles']); // Redirige a la lista de tareas en caso de error
-        }
-      );
+    })
+  
+
+    this.type = this.route.snapshot.data['type'];
+    if (this.type === 'modelo') {
+      this.loadMarcas();
     }
   }
   
@@ -107,35 +88,6 @@ private _: any;
   }
 
   onSubmit(): void {
-	  console.log('Submitting form...');
-	  console.log('isEditMode:', this.isEditMode);
-	  console.log('Vehicle:', this.vehicle);
-
-	  if (this.isEditMode) {
-		console.log('Updating vehicle...');
-		this.vehicleService.updateVehicle(this.vehicle.id, this.vehicle).subscribe(
-		  (updatedVehicle) => {
-			console.log('Updated vehicle:', updatedVehicle);
-			Fancybox.close();
-			this.router.navigate(['/vehicles']);
-		  },
-		  (error) => {
-			console.error('Error updating vehicle', error);
-		  }
-		);
-	  } else {
-		console.log('Creating new vehicle...');
-		this.vehicleService.createVehicle(this.vehicle).subscribe(
-		  (newVehicle) => {
-			console.log('Created vehicle:', newVehicle);
-			console.log('Token before navigate:', localStorage.getItem('access_token'));
-			this.router.navigate(['/vehicles']);
-		  },
-		  (error) => {
-			console.error('Error creating vehicle', error);
-		  }
-		);
-	  }
 	}
 
   goBack(): void {
@@ -167,17 +119,39 @@ private _: any;
   }
 
   onMarcaChange(): void {
-    this.vehicle.modelo = ''; // Resetear el modelo cuando cambia la marca
+    this.modelo = ''; // Resetear el modelo cuando cambia la marca
     this.updateFilteredModelos();
   }
 
   updateFilteredModelos(): void {
-    if (this.vehicle.marca) {
+    if (this.marca) {
       this.filteredModelos = this.modelos.filter(
-        modelo => modelo.marcaId == this.vehicle.marca
+        m => m.marcaId == this.marca
       )
     } else {
       this.filteredModelos = [];
+    }
+  }
+
+  onSubmitForm(): void {
+    if (this.type === 'marca') {
+      this.vehicleService.createMarca(this.formData).subscribe({
+        next: () => {
+          this.router.navigate(['/vehicles']);
+        },
+        error: (error) => {
+          console.error('Error al crear marca:', error);
+        }
+      });
+    } else {
+      this.vehicleService.createModelo(this.formData).subscribe({
+        next: () => {
+          this.router.navigate(['/vehicles']);
+        },
+        error: (error) => {
+          console.error('Error al crear modelo:', error);
+        }
+      });
     }
   }
 }
