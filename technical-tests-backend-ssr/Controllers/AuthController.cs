@@ -55,15 +55,22 @@ public class AuthController : ControllerBase
         return Ok(resultado);
     }
 
-    [HttpGet("confirmar-email")]
-    public async Task<IActionResult> ConfirmarEmail([FromQuery] string token)
+    [HttpPost("confirmar-email")]
+    public async Task<IActionResult> ConfirmarEmail([FromBody] TokenDTO tokenDto)
     {
-        var resultado = await _authService.ConfirmarEmailAsync(token);
+        Console.WriteLine("Token recibido: " + tokenDto.Token);
+
+        var resultado = await _authService.ConfirmarEmailAsync(tokenDto.Token);
         if (!resultado)
         {
             return BadRequest(new { Message = "Token inválido o expirado" });
         }
         return Ok(new { Message = "Email confirmado exitosamente" });
+    }
+
+    public class TokenDTO
+    {
+        public string Token { get; set; }
     }
 
     [Authorize]

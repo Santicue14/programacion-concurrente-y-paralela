@@ -15,7 +15,7 @@
                 class="form-control"
                 placeholder="Ingrese el nombre de usuario"
                 required
-                [(ngModel)]="user.username"
+                [(ngModel)]="user.email"
                 name="username"
                 #usernameField="ngModel"
               />
@@ -44,21 +44,21 @@
 
             <!-- Confirm Password Field -->
             <div class="form-group">
-              <label for="confirmPassword">Confirmar contraseña</label>
+              <label for="confirmarPassword">Confirmar contraseña</label>
               <input
                 type="password"
-                id="confirmPassword"
+                id="confirmarPassword"
                 class="form-control"
                 placeholder="Confirmar contraseña"
                 required
-                [(ngModel)]="user.confirmPassword"
-                name="confirmPassword"
+                [(ngModel)]="user.confirmarPassword"
+                name="confirmarPassword"
                 #confirmPasswordField="ngModel"
               />
               <div *ngIf="confirmPasswordField.invalid && confirmPasswordField.touched" class="text-danger">
                 <small *ngIf="confirmPasswordField.errors?.['required']">Por favor confirme su contraseña.</small>
               </div>
-              <div *ngIf="user.password && user.confirmPassword && user.password !== user.confirmPassword" class="text-danger">
+              <div *ngIf="user.password && user.confirmarPassword && user.password !== user.confirmarPassword" class="text-danger">
                 <small>Las contraseñas no coinciden.</small>
               </div>
             </div>
@@ -67,7 +67,17 @@
             <button type="submit" class="btn btn-primary btn-block" [disabled]="registerForm.invalid">
               Registrar
             </button>
+
+            <!-- Error Message -->
+            <div *ngIf="errorMessage && errorMessage.length > 0" class="alert alert-danger">
+              <p *ngFor="let error of errorMessage">{{ error }}</p>
+            </div> 
           </form>
+
+          <!-- Status security pass -->
+          <div class="alert alert-info">
+            <p>La contraseña debe contener al menos 6 caracteres.</p>
+          </div>
         </div>
       </div>
     </div>

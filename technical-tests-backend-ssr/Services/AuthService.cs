@@ -49,11 +49,15 @@ public class AuthService : IAuthService
         };
 
         _context.Usuarios.Add(usuario);
-        await _context.SaveChangesAsync();
+
+        var tareaCrear = Task.Run(async () => await _context.SaveChangesAsync());
 
         // Enviar email de confirmación
-        await _emailService.EnviarEmailConfirmacionAsync(usuario.Email, usuario.EmailConfirmationToken!);
+        var tareaEnviarEmail = Task.Run(async () => await _emailService.EnviarEmailConfirmacionAsync(usuario.Email, usuario.EmailConfirmationToken!));
 
+        await Task.WhenAll(tareaCrear, tareaEnviarEmail);
+        // Las hacemos como una función anónima para que se ejecute en paralelo
+       
         return new AuthResponseDTO { Success = true, Message = "Registro exitoso. Por favor, confirma tu email." };
     }
 
@@ -108,7 +112,6 @@ public class AuthService : IAuthService
         {
             return false;
         }
-
         usuario.EmailConfirmado = true;
         usuario.EmailConfirmationToken = null;
         usuario.EmailConfirmationTokenExpiry = null;
@@ -150,7 +153,7 @@ public class AuthService : IAuthService
     }
 
     private string GenerateToken()
-    {
+    {        
         return Convert.ToBase64String(Guid.NewGuid().ToByteArray());
     }
 
@@ -161,7 +164,19 @@ public class AuthService : IAuthService
 
     private string GenerateJwtToken(Usuario usuario)
     {
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+        var keyString = _configuration["Jwt:Key"];
+        if (string.IsNullOrEmpty(keyString))
+        {
+            throw new InvalidOperationException("JWT Key no está configurada en appsettings.json");
+        }
+
+        // Aseguramos que la clave tenga al menos 16 caracteres (128 bits)
+        if (keyString.Length < 16)
+        {
+            throw new InvalidOperationException("JWT Key debe tener al menos 16 caracteres");
+        }
+
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyString));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]

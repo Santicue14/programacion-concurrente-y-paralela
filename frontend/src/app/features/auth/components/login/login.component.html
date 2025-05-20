@@ -14,6 +14,7 @@
           required
           #usernameField="ngModel"
           placeholder="Ingresar nombre de usuario"
+          [disabled]="isLoading"
         />
         <div *ngIf="usernameField.invalid && usernameField.touched" class="text-danger">
           <small *ngIf="usernameField.errors?.['required']">El usuario es requerido.</small>
@@ -32,6 +33,7 @@
           required
           #passwordField="ngModel"
           placeholder="Ingresar la contraseña"
+          [disabled]="isLoading"
         />
         <div *ngIf="passwordField.invalid && passwordField.touched" class="text-danger">
           <small *ngIf="passwordField.errors?.['required']">La contraseña es requerida.</small>
@@ -39,10 +41,15 @@
       </div>
 
       <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">
-        Entrar
+      <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid || isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+        {{ isLoading ? 'Verificando...' : 'Entrar' }}
       </button>
 
+      <!-- Notification Message -->
+      <div *ngIf="notificationMessage" class="alert alert-success">
+        {{ notificationMessage }}
+      </div>
       <!-- Error Message -->
       <div *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}

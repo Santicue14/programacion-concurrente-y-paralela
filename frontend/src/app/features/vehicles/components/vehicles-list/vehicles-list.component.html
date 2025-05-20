@@ -1,0 +1,83 @@
+<div class="container vehicles-list-container">
+  <h1 class="vehicles-list-title">Lista de Vehiculos</h1>
+
+  <p class="vehicle-actions"><button class="btn btn-edit btn-sm" (click)="onCreateVehicle()">Nuevo</button></p>
+  <table class="table vehicle-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Estado</th>
+        <th>Fecha de Vencimiento</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vehicle of vehicles; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ vehicle.marca }}</td>
+        <td>{{ vehicle.modelo }}</td>
+        <td>
+          <span class="badge" [ngClass]="vehicle.stock ? 'bg-success' : 'bg-warning'">
+			  {{ vehicle.stock ? 'En Stock' : 'Agotado' }}
+		  </span>
+
+        </td>
+        <td>{{ vehicle.precio }}</td>
+        <td class="vehicle-actions">
+          <button class="btn btn-edit btn-sm" (click)="onEditVehicle(vehicle)">Editar</button>
+		  
+          <button class="btn btn-delete btn-sm" (click)="onDeleteVehicle(vehicle)">Eliminar</button>
+        </td>
+      </tr>
+      <tr *ngIf="vehicles.length === 0">
+        <td colspan="6" class="no-vehicles-message">No hay vehiculos para mostrar.</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <!-- Modal de Confirmación -->
+<div
+  class="modal fade"
+  id="deleteVehicleModal"
+  tabindex="-1"
+  aria-labelledby="deleteVehicleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteVehicleModalLabel">Confirmar Borrado</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        ¿Estás seguro de que deseas borrar el vehiculo "<strong>{{ selectedVehicle?.marca }}</strong>"?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Cancelar
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="confirmDelete()"
+        >
+          Borrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  
+</div>

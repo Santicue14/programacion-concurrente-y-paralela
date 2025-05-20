@@ -17,9 +17,9 @@ export class RegisterComponent {
 	// private http: HttpClient, 
 	
 	user = {
-		username: '',
+		email: '',
 		password: '',
-		confirmPassword: ''
+		confirmarPassword: ''
 	  };
     errorMessage: string = '';
   
@@ -28,7 +28,8 @@ export class RegisterComponent {
 	
 	
 	onSubmit() {
-    if (this.user.password === this.user.confirmPassword) {
+    if (this.user.password === this.user.confirmarPassword) {
+
       // Aquí debes llamar a la API para registrar al usuario
       this.authService.register(this.user).subscribe(
         (response) => {

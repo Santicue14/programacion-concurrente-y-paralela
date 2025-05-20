@@ -4,24 +4,39 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Router } from '@angular/router';
 
+interface VerificationResponse {
+  requires2FA: boolean;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = `${environment.apiBaseUrl}`;  // Cambia según tu configuración
+  private apiUrl = `${environment.apiBaseUrl}/api/Auth`;  // Cambia según tu configuración
 
   constructor(private http: HttpClient, private router: Router) { }
 
   // Método para hacer login
-  login(username: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { username, password });
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password });
   }
   
   register(user: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, user);
+    return this.http.post(`${this.apiUrl}/registro`, user);
   }
 
+  // Método para verificar email
+  verifyEmail(token: string): Observable<VerificationResponse> {
+    //Tengo que pasar el token como un string en el body
+    return this.http.post<VerificationResponse>(`${this.apiUrl}/confirmar-email`, { token: token });
+  }
+
+  // Método para verificar 2FA
+  verify2FA(token: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/api/Auth/confirmar-email?token=${encodeURIComponent(token)}`);
+  }
 
   // Método para hacer logout
   logout_obsolete(): void {

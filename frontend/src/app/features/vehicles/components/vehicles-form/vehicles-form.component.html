@@ -1,0 +1,72 @@
+<div id="taskFormModal">
+<div class="container form-container">
+  <h2 class="text-center">{{ vehicle.id ? 'Editar Vehiculo' : 'Nuevo Vehiculo' }}</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <!-- Title Field -->
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        [(ngModel)]="vehicle.marca"
+        name="marca"
+        required
+        placeholder="Ingrese la marca del vehiculo"
+      />
+    </div>
+
+    <!-- Description Field -->
+    <div class="form-group">
+      <label for="description">Descripción</label>
+      <textarea
+        id="description"
+        class="form-control"
+        [(ngModel)]="vehicle.modelo"
+        name="modelo"
+        placeholder="Ingrese el modelo del vehiculo"
+      ></textarea>
+    </div>
+
+    <!-- Year Field -->
+    <div class="form-group">
+      <label for="anio">Año</label>
+      <input
+        type="number"
+        id="anio"
+        class="form-control"
+        [(ngModel)]="vehicle.anio"
+        name="anio"
+      />
+    </div>
+
+    <!-- Completed Field -->
+    <div class="form-check">
+      <input
+        type="checkbox"
+        id="stock"
+        class="form-check-input"
+        [(ngModel)]="vehicle.stock"
+        name="stock"
+      />
+      <label class="form-check-label" for="stock">¿Tarea Terminada?</label>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-group mt-3">
+      <button
+        type="submit"
+        class="btn btn-custom w-100"
+        [disabled]="!vehicle.marca || !vehicle.modelo"
+      >
+        {{ vehicle.id ? 'Actualizar Vehiculo' : 'Crear Vehiculo' }}
+      </button>
+    </div>
+  </form>
+
+  <div class="form-group mt-3">
+    <button class="btn btn-secondary w-100" (click)="goBack()">Cancelar</button>
+  </div>
+</div>
+</div>

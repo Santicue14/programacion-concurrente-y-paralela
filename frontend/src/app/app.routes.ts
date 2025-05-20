@@ -4,9 +4,9 @@ import { AuthGuard } from './features/auth/guards/auth.guard';
 
 export const routes: Routes = [
   {
-    path: 'tasks',
+    path: 'vehicles',
     loadChildren: () =>
-      import('./features/tasks/tasks.module').then((m) => m.TasksModule),
+      import('./features/vehicles/vehicles.module').then((m) => m.VehiclesModule),  
     canActivate: [AuthGuard],
   },
   {
