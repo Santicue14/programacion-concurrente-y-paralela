@@ -1,0 +1,153 @@
+<div class="stats-cards-container">
+  <div class="stats-grid">
+    <!-- Total Sales Card -->
+    <div class="stat-card sales-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <div class="card-info">
+          <h3>Ventas Totales</h3>
+          <p class="card-subtitle">Todas las ventas registradas</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatNumber(stats.totalSales) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="growth-indicator growth-positive">
+            <i class="fas fa-arrow-up"></i>
+            {{ formatNumber(stats.salesThisMonth) }} este mes
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Revenue Card -->
+    <div class="stat-card revenue-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-dollar-sign"></i>
+        </div>
+        <div class="card-info">
+          <h3>Ingresos Totales</h3>
+          <p class="card-subtitle">Facturación acumulada</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatCurrency(stats.totalRevenue) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="growth-indicator growth-positive">
+            <i class="fas fa-arrow-up"></i>
+            {{ formatCurrency(stats.revenueThisMonth) }} este mes
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Clients Card -->
+    <div class="stat-card clients-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <div class="card-info">
+          <h3>Clientes</h3>
+          <p class="card-subtitle">Base de clientes activa</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatNumber(stats.totalClients) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="metric-label">
+            <i class="fas fa-percentage"></i>
+            {{ formatPercentage(stats.conversionRate) }} conversión
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Total Vehicles Card -->
+    <div class="stat-card vehicles-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-car"></i>
+        </div>
+        <div class="card-info">
+          <h3>Vehículos</h3>
+          <p class="card-subtitle">Inventario disponible</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatNumber(stats.totalVehicles) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="metric-label">
+            <i class="fas fa-warehouse"></i>
+            En stock
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Average Ticket Card -->
+    <div class="stat-card ticket-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-receipt"></i>
+        </div>
+        <div class="card-info">
+          <h3>Ticket Promedio</h3>
+          <p class="card-subtitle">Valor promedio por venta</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatCurrency(stats.averageTicket) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="metric-label">
+            <i class="fas fa-calculator"></i>
+            Por transacción
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversion Rate Card -->
+    <div class="stat-card conversion-card">
+      <div class="card-header">
+        <div class="card-icon">
+          <i class="fas fa-chart-pie"></i>
+        </div>
+        <div class="card-info">
+          <h3>Tasa de Conversión</h3>
+          <p class="card-subtitle">Efectividad de ventas</p>
+        </div>
+      </div>
+      <div class="card-content">
+        <div class="main-stat" *ngIf="!loading && stats">
+          {{ formatPercentage(stats.conversionRate) }}
+        </div>
+        <div class="loading-skeleton" *ngIf="loading"></div>
+        <div class="sub-stat" *ngIf="!loading && stats">
+          <span class="growth-indicator growth-positive">
+            <i class="fas fa-arrow-up"></i>
+            Excelente rendimiento
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

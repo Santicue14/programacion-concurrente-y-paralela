@@ -3,11 +3,12 @@
 /* Fondo de la página */
 body {
   background-color: #f7f7f7;
+  display: grid;
+  place-content: center;
 }
 
-/* Centrado del formulario */
-.container {
-  margin-top: 50px;
+.container{
+  width: 1000px;
 }
 
 .card {

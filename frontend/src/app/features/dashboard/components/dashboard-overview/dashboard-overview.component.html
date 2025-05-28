@@ -1,0 +1,167 @@
+<div class="dashboard-container">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="header-content">
+      <div class="header-title">
+        <h1>
+          <i class="fas fa-tachometer-alt"></i>
+          Dashboard del Negocio
+        </h1>
+        <p class="header-subtitle">Resumen ejecutivo y análisis de ventas</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" (click)="navigateToCreateSale()">
+          <i class="fas fa-plus"></i>
+          Nueva Venta
+        </button>
+        <button class="btn btn-secondary" (click)="refreshData()" [disabled]="isLoading">
+          <i class="fas fa-sync-alt" [class.fa-spin]="isLoading"></i>
+          Actualizar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <div class="filters-container">
+      <div class="filter-group">
+        <label for="period">Período:</label>
+        <select id="period" class="form-control" [(ngModel)]="filters.period" (change)="onPeriodChange()">
+          <option *ngFor="let option of periodOptions" [value]="option.value">
+            {{ option.label }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-group">
+        <label for="startDate">Fecha Inicio:</label>
+        <input 
+          type="date" 
+          id="startDate" 
+          class="form-control" 
+          [(ngModel)]="filters.startDate" 
+          (change)="onDateRangeChange()"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="endDate">Fecha Fin:</label>
+        <input 
+          type="date" 
+          id="endDate" 
+          class="form-control" 
+          [(ngModel)]="filters.endDate" 
+          (change)="onDateRangeChange()"
+        />
+      </div>
+
+      <div class="filter-group">
+        <label for="vehicleBrand">Marca:</label>
+        <select id="vehicleBrand" class="form-control" [(ngModel)]="filters.vehicleBrand" (change)="onBrandChange()">
+          <option value="">Todas las marcas</option>
+          <option *ngFor="let brand of vehicleBrands" [value]="brand">
+            {{ brand }}
+          </option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button class="btn btn-outline" (click)="clearFilters()">
+          <i class="fas fa-times"></i>
+          Limpiar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards Section -->
+  <div class="stats-section">
+    <app-stats-cards 
+      [stats]="dashboardStats" 
+      [loading]="statsLoading">
+    </app-stats-cards>
+  </div>
+
+  <!-- Quick Actions Section -->
+  <div class="quick-actions-section">
+    <div class="quick-actions-container">
+      <h3>
+        <i class="fas fa-bolt"></i>
+        Acciones Rápidas
+      </h3>
+      <div class="actions-grid">
+        <div class="action-card" (click)="navigateToSales()">
+          <div class="action-icon sales-icon">
+            <i class="fas fa-chart-line"></i>
+          </div>
+          <div class="action-content">
+            <h4>Ver Ventas</h4>
+            <p>Gestionar todas las ventas</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+
+        <div class="action-card" (click)="navigateToClients()">
+          <div class="action-icon clients-icon">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="action-content">
+            <h4>Ver Clientes</h4>
+            <p>Administrar base de clientes</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+
+        <div class="action-card" (click)="navigateToVehicles()">
+          <div class="action-icon vehicles-icon">
+            <i class="fas fa-car"></i>
+          </div>
+          <div class="action-content">
+            <h4>Ver Vehículos</h4>
+            <p>Gestionar inventario</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+
+        <div class="action-card" (click)="navigateToCreateSale()">
+          <div class="action-icon create-icon">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="action-content">
+            <h4>Nueva Venta</h4>
+            <p>Registrar nueva venta</p>
+          </div>
+          <div class="action-arrow">
+            <i class="fas fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Analytics Section -->
+  <div class="analytics-section">
+    <app-sales-analytics 
+      [analytics]="salesAnalytics" 
+      [recentSales]="recentSales"
+      [loading]="analyticsLoading || recentSalesLoading">
+    </app-sales-analytics>
+  </div>
+
+  <!-- Date Range Info -->
+  <div class="info-section" *ngIf="hasDateRange">
+    <div class="info-card">
+      <i class="fas fa-info-circle"></i>
+      <span>
+        Mostrando datos desde {{ formatDate(filters.startDate!) }} hasta {{ formatDate(filters.endDate!) }}
+      </span>
+    </div>
+  </div>
+</div> 

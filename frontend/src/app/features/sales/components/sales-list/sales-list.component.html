@@ -1,0 +1,148 @@
+<div class="container vehicles-list-container">
+  <h1 class="vehicles-list-title">Lista de Ventas Santicue Motors</h1>
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="search-filter-container">
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="Buscar ventas..." 
+        [(ngModel)]="searchTerm"
+        (input)="filterSales()">
+    </div>
+    <div class="filter-box">
+      <select class="form-select" [(ngModel)]="selectedMarca" (change)="filterSales()">
+        <option value="">Todas las marcas</option>
+        <option *ngFor="let marca of marcas" [value]="marca">{{marca}}</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" (click)="onCreateSale()">
+      <i class="fas fa-plus"></i> Nueva Venta
+    </button>
+  </div>
+
+  <!-- Tabla de ventas -->
+  <div class="table-responsive">
+    <table class="table vehicle-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th (click)="sortBy('cliente')" class="sortable">
+            Cliente
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'cliente',
+              'fa-sort-up': sortColumn === 'cliente' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'cliente' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('vehiculo')" class="sortable">
+            Vehículo
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'vehiculo',
+              'fa-sort-up': sortColumn === 'vehiculo' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'vehiculo' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('fecha')" class="sortable">
+            Fecha
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'fecha',
+              'fa-sort-up': sortColumn === 'fecha' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'fecha' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th (click)="sortBy('total')" class="sortable">
+            Total
+            <i class="fas" [ngClass]="{
+              'fa-sort': sortColumn !== 'total',
+              'fa-sort-up': sortColumn === 'total' && sortDirection === 'asc',
+              'fa-sort-down': sortColumn === 'total' && sortDirection === 'desc'
+            }"></i>
+          </th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sale of paginatedSales; let i = index">
+          <td>{{ sale.id}}</td>
+          <td>
+            <div *ngIf="sale.cliente">
+              <strong>{{ sale.cliente.nombre }} {{ sale.cliente.apellido }}</strong><br>
+              <small class="text-muted">{{ sale.cliente.email }}</small>
+            </div>
+            <span *ngIf="!sale.cliente" class="text-muted">Sin cliente</span>
+          </td>
+          <td>
+            <div *ngIf="sale.vehiculo">
+              <strong>{{ sale.vehiculo.marca }} {{ sale.vehiculo.modelo }}</strong><br>
+              <small class="text-muted">Año: {{ sale.vehiculo.anio }}</small>
+            </div>
+            <span *ngIf="!sale.vehiculo" class="text-muted">Sin vehículo</span>
+          </td>
+          <td>{{ sale.fecha | date:'dd/MM/yyyy' }}</td>
+          <td>{{ sale.total | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td class="vehicle-actions">
+            <button class="btn btn-edit btn-sm" (click)="onEditSale(sale)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button class="btn btn-delete btn-sm" (click)="onDeleteSale(sale)">
+              <i class="fas fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="paginatedSales.length === 0">
+          <td colspan="6" class="no-vehicles-message">
+            <i class="fas fa-receipt"></i>
+            No hay ventas para mostrar.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination-container" *ngIf="totalPages > 1">
+    <nav aria-label="Navegación de páginas">
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Anterior">
+            <i class="fas fa-chevron-left"></i>
+          </a>
+        </li>
+        <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+          <a class="page-link" (click)="changePage(page)">{{page}}</a>
+        </li>
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Siguiente">
+            <i class="fas fa-chevron-right"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- Modal de Confirmación -->
+  <div class="modal fade" id="deleteSaleModal" tabindex="-1" aria-labelledby="deleteSaleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteSaleModalLabel">Confirmar Borrado</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div *ngIf="selectedSale">
+            ¿Estás seguro de que deseas borrar la venta de 
+            <strong>{{ selectedSale.cliente?.nombre }} {{ selectedSale.cliente?.apellido }}</strong>
+            del vehículo <strong>{{ selectedSale.vehiculo?.marca }} {{ selectedSale.vehiculo?.modelo }}</strong>?
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="confirmDelete()">Borrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

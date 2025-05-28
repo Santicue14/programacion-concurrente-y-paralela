@@ -225,36 +225,117 @@ public class AppDbContext : DbContext
             new Marca { Id = 13, Nombre = "Fiat" }
         );
 
-        // Modelos existentes
-        modelBuilder.Entity<Modelo>().HasData(
+        // Modelos expandidos (al menos 4 por marca)
+        var modelos = new List<Modelo>
+        {
+            // Toyota (ID: 1)
             new Modelo { Id = 1, MarcaId = 1, Nombre = "Corolla" },
-            new Modelo { Id = 2, MarcaId = 2, Nombre = "Focus" },
-            new Modelo { Id = 3, MarcaId = 3, Nombre = "Cruze" },
-            new Modelo { Id = 4, MarcaId = 4, Nombre = "Civic" },
-            new Modelo { Id = 5, MarcaId = 5, Nombre = "Sentra" },
-            new Modelo { Id = 6, MarcaId = 6, Nombre = "Elantra" },
-            new Modelo { Id = 7, MarcaId = 7, Nombre = "Golf" },
-            new Modelo { Id = 8, MarcaId = 8, Nombre = "Serie 3" },
-            new Modelo { Id = 9, MarcaId = 9, Nombre = "A4" },
-            new Modelo { Id = 10, MarcaId = 10, Nombre = "Clase C" },
-            new Modelo { Id = 11, MarcaId = 11, Nombre = "Kangoo" },
-            new Modelo { Id = 12, MarcaId = 12, Nombre = "208" },
-            new Modelo { Id = 13, MarcaId = 13, Nombre = "Cronos" }
-        );
+            new Modelo { Id = 2, MarcaId = 1, Nombre = "Camry" },
+            new Modelo { Id = 3, MarcaId = 1, Nombre = "RAV4" },
+            new Modelo { Id = 4, MarcaId = 1, Nombre = "Hilux" },
+            new Modelo { Id = 5, MarcaId = 1, Nombre = "Yaris" },
+            
+            // Ford (ID: 2)
+            new Modelo { Id = 6, MarcaId = 2, Nombre = "Focus" },
+            new Modelo { Id = 7, MarcaId = 2, Nombre = "Fiesta" },
+            new Modelo { Id = 8, MarcaId = 2, Nombre = "Mustang" },
+            new Modelo { Id = 9, MarcaId = 2, Nombre = "Ranger" },
+            new Modelo { Id = 10, MarcaId = 2, Nombre = "Ecosport" },
+            
+            // Chevrolet (ID: 3)
+            new Modelo { Id = 11, MarcaId = 3, Nombre = "Cruze" },
+            new Modelo { Id = 12, MarcaId = 3, Nombre = "Onix" },
+            new Modelo { Id = 13, MarcaId = 3, Nombre = "Tracker" },
+            new Modelo { Id = 14, MarcaId = 3, Nombre = "S10" },
+            new Modelo { Id = 15, MarcaId = 3, Nombre = "Spin" },
+            
+            // Honda (ID: 4)
+            new Modelo { Id = 16, MarcaId = 4, Nombre = "Civic" },
+            new Modelo { Id = 17, MarcaId = 4, Nombre = "Accord" },
+            new Modelo { Id = 18, MarcaId = 4, Nombre = "HR-V" },
+            new Modelo { Id = 19, MarcaId = 4, Nombre = "CR-V" },
+            new Modelo { Id = 20, MarcaId = 4, Nombre = "Fit" },
+            
+            // Nissan (ID: 5)
+            new Modelo { Id = 21, MarcaId = 5, Nombre = "Sentra" },
+            new Modelo { Id = 22, MarcaId = 5, Nombre = "Versa" },
+            new Modelo { Id = 23, MarcaId = 5, Nombre = "X-Trail" },
+            new Modelo { Id = 24, MarcaId = 5, Nombre = "Kicks" },
+            new Modelo { Id = 25, MarcaId = 5, Nombre = "Frontier" },
+            
+            // Hyundai (ID: 6)
+            new Modelo { Id = 26, MarcaId = 6, Nombre = "Elantra" },
+            new Modelo { Id = 27, MarcaId = 6, Nombre = "Tucson" },
+            new Modelo { Id = 28, MarcaId = 6, Nombre = "Santa Fe" },
+            new Modelo { Id = 29, MarcaId = 6, Nombre = "Accent" },
+            new Modelo { Id = 30, MarcaId = 6, Nombre = "Creta" },
+            
+            // Volkswagen (ID: 7)
+            new Modelo { Id = 31, MarcaId = 7, Nombre = "Golf" },
+            new Modelo { Id = 32, MarcaId = 7, Nombre = "Polo" },
+            new Modelo { Id = 33, MarcaId = 7, Nombre = "Vento" },
+            new Modelo { Id = 34, MarcaId = 7, Nombre = "Tiguan" },
+            new Modelo { Id = 35, MarcaId = 7, Nombre = "Amarok" },
+            
+            // BMW (ID: 8)
+            new Modelo { Id = 36, MarcaId = 8, Nombre = "Serie 3" },
+            new Modelo { Id = 37, MarcaId = 8, Nombre = "Serie 5" },
+            new Modelo { Id = 38, MarcaId = 8, Nombre = "X3" },
+            new Modelo { Id = 39, MarcaId = 8, Nombre = "X5" },
+            new Modelo { Id = 40, MarcaId = 8, Nombre = "M3" },
+            
+            // Audi (ID: 9)
+            new Modelo { Id = 41, MarcaId = 9, Nombre = "A4" },
+            new Modelo { Id = 42, MarcaId = 9, Nombre = "A3" },
+            new Modelo { Id = 43, MarcaId = 9, Nombre = "Q5" },
+            new Modelo { Id = 44, MarcaId = 9, Nombre = "Q3" },
+            new Modelo { Id = 45, MarcaId = 9, Nombre = "A6" },
+            
+            // Mercedes-Benz (ID: 10)
+            new Modelo { Id = 46, MarcaId = 10, Nombre = "Clase C" },
+            new Modelo { Id = 47, MarcaId = 10, Nombre = "Clase A" },
+            new Modelo { Id = 48, MarcaId = 10, Nombre = "Clase E" },
+            new Modelo { Id = 49, MarcaId = 10, Nombre = "GLA" },
+            new Modelo { Id = 50, MarcaId = 10, Nombre = "GLC" },
+            
+            // Renault (ID: 11)
+            new Modelo { Id = 51, MarcaId = 11, Nombre = "Kangoo" },
+            new Modelo { Id = 52, MarcaId = 11, Nombre = "Sandero" },
+            new Modelo { Id = 53, MarcaId = 11, Nombre = "Logan" },
+            new Modelo { Id = 54, MarcaId = 11, Nombre = "Duster" },
+            new Modelo { Id = 55, MarcaId = 11, Nombre = "Captur" },
+            
+            // Peugeot (ID: 12)
+            new Modelo { Id = 56, MarcaId = 12, Nombre = "208" },
+            new Modelo { Id = 57, MarcaId = 12, Nombre = "308" },
+            new Modelo { Id = 58, MarcaId = 12, Nombre = "2008" },
+            new Modelo { Id = 59, MarcaId = 12, Nombre = "3008" },
+            new Modelo { Id = 60, MarcaId = 12, Nombre = "Partner" },
+            
+            // Fiat (ID: 13)
+            new Modelo { Id = 61, MarcaId = 13, Nombre = "Cronos" },
+            new Modelo { Id = 62, MarcaId = 13, Nombre = "Argo" },
+            new Modelo { Id = 63, MarcaId = 13, Nombre = "Strada" },
+            new Modelo { Id = 64, MarcaId = 13, Nombre = "Toro" },
+            new Modelo { Id = 65, MarcaId = 13, Nombre = "Mobi" }
+        };
+
+        modelBuilder.Entity<Modelo>().HasData(modelos);
 
         // Generar más vehículos
         var vehiculos = new List<Vehiculo>();
         var random = new Random();
         var id = 1;
 
-        for (int modeloId = 1; modeloId <= 13; modeloId++)
+        // Generar vehículos para cada modelo
+        foreach (var modelo in modelos)
         {
-            for (int i = 0; i < 50; i++) // 50 vehículos por modelo
+            for (int i = 0; i < 20; i++) // 20 vehículos por modelo
             {
                 vehiculos.Add(new Vehiculo
                 {
                     Id = id++,
-                    ModeloId = modeloId,
+                    ModeloId = modelo.Id,
                     Anio = random.Next(2018, 2024),
                     Precio = random.Next(5000000, 15000000),
                     Stock = random.Next(1, 20)

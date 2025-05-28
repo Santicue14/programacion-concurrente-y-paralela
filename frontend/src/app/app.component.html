@@ -1,22 +1,57 @@
 <!-- Barra de navegación -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/vehicles">Santicue Motors</a>
+      <a class="navbar-brand" href="/dashboard">Santicue Motors</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">		  
 		  <li class="nav-item" *ngIf="!(authService.isAuthenticated())">
-			<a class="nav-link" href="/auth/login">Login</a>
+			<a class="nav-link" href="/auth/login">
+        <span class="nav-icon-text">Login</span>
+      </a>
 		  </li>
       <li class="nav-item" *ngIf="authService.isAuthenticated()">
-        <a class="nav-link" href="/vehicles">Vehiculos</a>
+        <a class="nav-link" href="/dashboard">
+          <i class="nav-icon">📊</i>
+          <span class="nav-icon-text">Dashboard</span>
+        </a>
       </li>          
       <li class="nav-item" *ngIf="authService.isAuthenticated()">
-      <button class="btn btn-danger" (click)="logout()">
-        <i class="fas fa-door-open"></i>
-      </button>
+        <a class="nav-link" href="/sales">
+          <i class="nav-icon">🛒</i>
+          <span class="nav-icon-text">Ventas</span>
+          <!-- TODO: Ventas module -->
+        </a>
+      </li>          
+      <li class="nav-item dropdown" *ngIf="authService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button">
+          <i class="nav-icon">👥</i>
+          <span class="nav-icon-text">Clientes</span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/clients">Listado de clientes</a></li>
+          <li><a class="dropdown-item" href="/clients/create">Crear cliente</a></li>
+        </ul>
+      </li>          
+      <li class="nav-item dropdown" *ngIf="authService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button">
+          <i class="nav-icon">🚗</i>
+          <span class="nav-icon-text">Vehiculos</span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/vehicles">Listado de vehículos</a></li>
+          <li><a class="dropdown-item" href="/vehicles/create">Crear vehículo</a></li>
+          <li><a class="dropdown-item" href="/vehicles/catalogo/marca">Crear marca</a></li>
+          <li><a class="dropdown-item" href="/vehicles/catalogo/modelo">Crear modelo</a></li>
+        </ul>
+      </li>          
+      <li class="nav-item logout-item" *ngIf="authService.isAuthenticated()">
+        <button class="btn btn-logout" (click)="logout()">
+          <i class="nav-icon">🚪</i>
+          <span class="nav-icon-text">Salir</span>  
+        </button>
       </li>
     </ul>
       </div>

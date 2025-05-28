@@ -16,7 +16,7 @@ public class VentaService
     private readonly IClienteRepository _clienteRepository;
     private readonly IVehiculoRepository _vehiculoRepository;
     private readonly INotificationService _notificationService;
-
+    private readonly VehiculoService _vehiculoService;
     /// <summary>
     /// Constructor for VentaService.
     /// </summary>
@@ -24,15 +24,19 @@ public class VentaService
     /// <param name="clienteRepository"></param>
     /// <param name="vehiculoRepository"></param>
     /// <param name="notificationService"></param>
+    /// <param name="vehiculoService"></param>
     public VentaService(
         IVentaRepository ventaRepository, 
         IClienteRepository clienteRepository, 
         IVehiculoRepository vehiculoRepository,
-        INotificationService notificationService)
+        INotificationService notificationService,
+        VehiculoService vehiculoService
+        )
     {
         _ventaRepository = ventaRepository;
         _clienteRepository = clienteRepository;
         _vehiculoRepository = vehiculoRepository;
+        _vehiculoService = vehiculoService;
         _notificationService = notificationService;
     }
 
@@ -45,18 +49,10 @@ public class VentaService
         //Cronometr
         var cronometro = Stopwatch.StartNew();
         var ventas = await _ventaRepository.GetAllAsync();
-        var vehiculos = await _vehiculoRepository.GetAllAsync();
         var clientes = await _clienteRepository.GetAllAsync();
 
-        //Mapear vehiculos
-        var vehiculosMapeados = vehiculos.AsParallel().Select(vehiculo => new VehiculoDTO
-        {
-            Id = vehiculo.Id,
-            Marca = vehiculo.Modelo?.Marca?.Nombre ?? "Sin marca",
-            Modelo = vehiculo.Modelo?.Nombre ?? "Sin modelo",
-            Anio = vehiculo.Anio,
-            Precio = vehiculo.Precio
-        }).ToList();
+        var vehiculosDetalles = await _vehiculoService.GetAllAsync();
+
 
         //Mapear clientes
         var clientesMapeados = clientes.AsParallel().Select(cliente => new ClienteDTO
@@ -68,11 +64,13 @@ public class VentaService
             Telefono = cliente.Telefono
         }).ToList();
 
-        var ventasMapeadas = ventas.AsParallel().Select(venta => new VentaDTO
+        var ventasMapeadas = ventas
+        .AsParallel()
+        .Select(venta => new VentaDTO
         {
             Id = venta.Id,
             Cliente = clientesMapeados.FirstOrDefault(c => c.Id == venta.ClienteId),
-            Vehiculo = vehiculosMapeados.FirstOrDefault(v => v.Id == venta.VehiculoId),
+            Vehiculo = vehiculosDetalles.FirstOrDefault(v => v.Id == venta.VehiculoId),
             Fecha = venta.Fecha,
             Total = venta.Total
         }).ToList();

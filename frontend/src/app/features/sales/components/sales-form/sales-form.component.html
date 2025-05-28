@@ -1,0 +1,94 @@
+<div class="container form-container">
+  <h2>{{ formTitle }}</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <!-- Selección de Cliente -->
+      <div class="form-group full-width">
+        <label for="clienteId">Cliente *</label>
+        <select
+          id="clienteId"
+          class="form-control"
+          [(ngModel)]="selectedClientId"
+          name="clienteId"
+          (change)="onClientChange()"
+          required
+        >
+          <option value="">Seleccione un cliente</option>
+          <option *ngFor="let client of clients" [value]="client.id">
+            {{ client.nombre }} {{ client.apellido }} - {{ client.email }}
+          </option>
+        </select>
+        <a [href]="['/clients/create']" class="add-link">Agregar Cliente</a>
+      </div>
+
+      <!-- Selección de Vehículo -->
+      <div class="form-group full-width">
+        <label for="vehiculoId">Vehículo *</label>
+        <select
+          id="vehiculoId"
+          class="form-control"
+          [(ngModel)]="selectedVehicleId"
+          name="vehiculoId"
+          (change)="onVehicleChange()"
+          required
+        >
+          <option value="">Seleccione un vehículo</option>
+          <option *ngFor="let vehicle of vehicles" [value]="vehicle.id">
+            {{ vehicle.marca }} {{ vehicle.modelo }} ({{ vehicle.anio }}) - {{ vehicle.precio | currency:'USD':'symbol':'1.2-2' }}
+          </option>
+        </select>
+        <a [href]="['/vehicles/create']" class="add-link">Agregar Vehículo</a>
+      </div>
+
+      <!-- Fecha de Venta -->
+      <div class="form-group">
+        <label for="fecha">Fecha de Venta *</label>
+        <input
+          type="date"
+          id="fecha"
+          class="form-control"
+          [(ngModel)]="formData.fecha"
+          name="fecha"
+          required
+        />
+      </div>
+
+
+      <!-- Información del Cliente Seleccionado -->
+      <div class="form-group full-width" *ngIf="formData.cliente">
+        <div class="info-card">
+          <h6>Cliente Seleccionado:</h6>
+          <p><strong>{{ formData.cliente.nombre }} {{ formData.cliente.apellido }}</strong></p>
+          <p>Email: {{ formData.cliente.email }}</p>
+          <p>Teléfono: {{ formData.cliente.telefono }}</p>
+        </div>
+      </div>
+
+      <!-- Información del Vehículo Seleccionado -->
+      <div class="form-group full-width" *ngIf="formData.vehiculo">
+        <div class="info-card">
+          <h6>Vehículo Seleccionado:</h6>
+          <p><strong>{{ formData.vehiculo.marca }} {{ formData.vehiculo.modelo }}</strong></p>
+          <p>Año: {{ formData.vehiculo.anio }}</p>
+          <p>Precio: {{ formData.vehiculo.precio | currency:'USD':'symbol':'1.2-2' }}</p>
+          <p>Stock disponible: {{ formData.vehiculo.stock }}</p>
+        </div>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="form-group btns-actions full-width">
+        <button type="button" class="btn btn-secondary" (click)="goBack()">
+          Volver
+        </button>
+        <button
+          type="submit"
+          class="btn btn-custom"
+          [disabled]="!isFormValid()"
+        >
+          {{ submitButtonText }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

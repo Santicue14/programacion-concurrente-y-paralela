@@ -5,7 +5,7 @@
 
 /* Estilos para el modal */
 #taskFormModal {
-  max-width: 600px;
+  width: 100%;
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;

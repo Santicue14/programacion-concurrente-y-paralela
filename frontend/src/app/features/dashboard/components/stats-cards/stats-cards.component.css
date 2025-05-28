@@ -1,0 +1,241 @@
+.stats-cards-container {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #4a90e2, #357abd);
+  border-radius: 16px 16px 0 0;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Card specific colors */
+.sales-card::before {
+  background: linear-gradient(90deg, #4a90e2, #357abd);
+}
+
+.revenue-card::before {
+  background: linear-gradient(90deg, #28a745, #20c997);
+}
+
+.clients-card::before {
+  background: linear-gradient(90deg, #6f42c1, #e83e8c);
+}
+
+.vehicles-card::before {
+  background: linear-gradient(90deg, #fd7e14, #ffc107);
+}
+
+.ticket-card::before {
+  background: linear-gradient(90deg, #17a2b8, #6610f2);
+}
+
+.conversion-card::before {
+  background: linear-gradient(90deg, #dc3545, #fd7e14);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.sales-card .card-icon {
+  background: linear-gradient(135deg, #4a90e2, #357abd);
+}
+
+.revenue-card .card-icon {
+  background: linear-gradient(135deg, #28a745, #20c997);
+}
+
+.clients-card .card-icon {
+  background: linear-gradient(135deg, #6f42c1, #e83e8c);
+}
+
+.vehicles-card .card-icon {
+  background: linear-gradient(135deg, #fd7e14, #ffc107);
+}
+
+.ticket-card .card-icon {
+  background: linear-gradient(135deg, #17a2b8, #6610f2);
+}
+
+.conversion-card .card-icon {
+  background: linear-gradient(135deg, #dc3545, #fd7e14);
+}
+
+.card-info h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+  line-height: 1.2;
+}
+
+.card-subtitle {
+  margin: 0.25rem 0 0 0;
+  font-size: 0.85rem;
+  color: #6c757d;
+  line-height: 1.2;
+}
+
+.card-content {
+  margin-top: 1rem;
+}
+
+.main-stat {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2c3e50;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.sub-stat {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  color: #6c757d;
+}
+
+.growth-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+.growth-positive {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.growth-negative {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.growth-neutral {
+  background-color: rgba(108, 117, 125, 0.1);
+  color: #6c757d;
+}
+
+.metric-label {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.loading-skeleton {
+  height: 2.2rem;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1.25rem;
+  }
+  
+  .main-stat {
+    font-size: 1.8rem;
+  }
+  
+  .card-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-cards-container {
+    margin-bottom: 1rem;
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .main-stat {
+    font-size: 1.6rem;
+  }
+  
+  .card-info h3 {
+    font-size: 1rem;
+  }
+  
+  .card-subtitle {
+    font-size: 0.8rem;
+  }
+} 

@@ -68,13 +68,11 @@ export class LoginComponent implements OnInit {
     this.isLoading = true;
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
-        console.log('Respuesta completa:', response);
         const token = response.token;
-        console.log('Token obtenido:', token);
 
         if (token) {
           localStorage.setItem('access_token', token);
-          this.router.navigate(['/tasks']);
+          this.router.navigate(['/vehicles']);
         } else {
           this.errorMessage = 'No se recibió un token válido.';
         }

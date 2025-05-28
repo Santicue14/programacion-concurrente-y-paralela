@@ -1,0 +1,204 @@
+/* Estilos generales para el formulario */
+.form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.form-group.currency {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-group.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-group label {
+  display: block;
+  color: #555;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #4a90e2;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.form-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.form-check-input {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+/* Estilos para input groups */
+.input-group {
+  display: flex;
+  width: 100%;
+}
+
+.input-group-text {
+  background-color: #e9ecef;
+  border: 1px solid #ddd;
+  border-right: none;
+  padding: 0.75rem;
+  border-radius: 6px 0 0 6px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.input-group .form-control {
+  border-radius: 0 6px 6px 0;
+  border-left: none;
+}
+
+.input-group .form-control:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+/* Estilos para las tarjetas de información */
+.info-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.info-card h6 {
+  color: #495057;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid #dee2e6;
+  padding-bottom: 0.5rem;
+}
+
+.info-card p {
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.info-card p:last-child {
+  margin-bottom: 0;
+}
+
+.info-card strong {
+  color: #495057;
+}
+
+/* Estilos para texto de ayuda */
+.form-text {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-custom {
+  background-color: #4a90e2;
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #357abd;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btns-actions{
+  display: flex;
+  justify-content: center;
+  gap: 2.4rem;
+}
+
+@media (max-width: 768px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-container {
+    margin: 1rem;
+    padding: 1rem;
+    max-width: 95vw;
+  }
+
+  .info-card {
+    padding: 0.75rem;
+  }
+}
+
+/* Estilo para inputs de texto y datetime-local */
+input.form-control {
+  border-radius: 4px;
+  padding: 10px;
+}
+
+input[type="datetime-local"], input[type="date"] {
+  padding-left: 10px;
+}
+
+/* Estilos de la validación */
+.is-invalid {
+  border-color: #dc3545;
+}
+
+.is-valid {
+  border-color: #28a745;
+}
