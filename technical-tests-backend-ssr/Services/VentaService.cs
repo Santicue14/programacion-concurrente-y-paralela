@@ -257,30 +257,23 @@ public class VentaService
     public async Task<IEnumerable<Object>> GetSalesByModelAsync()
     {
         var ventas = await this.GetAllVentasAsync();
-
-        var vehiculos = await _vehiculoService.GetAllAsync();
-        var modelos = vehiculos.AsParallel().Select(v => v.Modelo).Distinct().ToList();
-
         var totalVentas = await this.GetTotalRevenueAsync();
-        var ventasPorModelo = ventas.AsParallel().GroupBy(v => v.Vehiculo.Modelo).Select(g => new {
-            Modelo = g.Key,
-            Total = g.Sum(v => v.Total),
-            Porcentaje = (g.Sum(v => v.Total) / totalVentas) * 100
-        }).ToList();
 
-        var ventasConMarcaYModelo = ventas
+        var ventasPorModelo = ventas
             .AsParallel()
-            .Select(v => new
-            {
-                Marca = v.Vehiculo.Marca,
-                Modelo = modelos.FirstOrDefault(m => m == v.Vehiculo.Modelo),
-                CantidadVentas = ventas.AsParallel().Where(v => v.Vehiculo.Modelo == v.Vehiculo.Modelo).Count(),
-                Porcentaje = (v.Total / totalVentas) * 100
-        })
-        .OrderByDescending(v => v.CantidadVentas)
-        .Take(10)
-        .ToList();
-        return ventasConMarcaYModelo;
+            .GroupBy(v => new { v.Vehiculo.Marca, v.Vehiculo.Modelo })
+            .Select(g => new {
+                Marca = g.Key.Marca,
+                Modelo = g.Key.Modelo,
+                Total = g.Sum(v => v.Total),
+                CantidadVentas = g.Count(),
+                Porcentaje = (g.Sum(v => v.Total) / totalVentas) * 100
+            })
+            .OrderByDescending(v => v.Total)
+            .Take(10)
+            .ToList();
+
+        return ventasPorModelo;
     }
 
     /// <summary>

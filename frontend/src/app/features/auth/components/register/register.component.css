@@ -8,7 +8,9 @@ body {
 }
 
 .container{
-  width: 1000px;
+  width: 100%;
+  margin-top: 5rem;
+  width: 70dvw;
 }
 
 .card {

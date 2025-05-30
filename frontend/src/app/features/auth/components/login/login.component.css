@@ -5,14 +5,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 50vh;
-  
+  margin-top: 5rem;
 }
 
 /* Caja del formulario */
 .login-box {
-  width: 100%;
-  max-width: 500px;
+  width: 70dvw;
   padding: 20px;
   border: 1px solid #dee2e6;
   border-radius: 10px;

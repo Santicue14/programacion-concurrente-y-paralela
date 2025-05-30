@@ -21,7 +21,9 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
+    this.loading = true;
     this.updateChartData();
+    this.loading = false;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -68,8 +70,6 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
         ]
       }]
     };
-
-    this.loading = false;
   }
 
   formatDate(dateString: string): string {
