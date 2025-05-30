@@ -18,12 +18,15 @@
           <span class="nav-icon-text">Dashboard</span>
         </a>
       </li>          
-      <li class="nav-item" *ngIf="authService.isAuthenticated()">
-        <a class="nav-link" href="/sales">
+      <li class="nav-item dropdown" *ngIf="authService.isAuthenticated()">
+        <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button">
           <i class="nav-icon">🛒</i>
           <span class="nav-icon-text">Ventas</span>
-          <!-- TODO: Ventas module -->
         </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="/sales">Listado de ventas</a></li>
+          <li><a class="dropdown-item" href="/sales/create">Crear venta</a></li>
+        </ul>
       </li>          
       <li class="nav-item dropdown" *ngIf="authService.isAuthenticated()">
         <a class="nav-link dropdown-toggle" href="javascript:void(0);" role="button">

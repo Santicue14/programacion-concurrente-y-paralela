@@ -98,8 +98,9 @@ export class SalesFormComponent implements OnInit {
   }
 
   onClientChange(): void {
-    if (this.selectedClientId) {
-      this.formData.cliente = this.clients.find(c => c.id === this.selectedClientId);
+    if (this.selectedClientId) {      
+      const cliente = this.clients.find(c => c.id == this.selectedClientId);
+      this.formData.cliente = cliente;
     } else {
       this.formData.cliente = undefined;
     }
@@ -108,7 +109,8 @@ export class SalesFormComponent implements OnInit {
 
   onVehicleChange(): void {
     if (this.selectedVehicleId) {
-      this.formData.vehiculo = this.vehicles.find(v => v.id === this.selectedVehicleId);
+      const vehiculo = this.vehicles.find(v => v.id == this.selectedVehicleId);
+      this.formData.vehiculo = vehiculo;
     } else {
       this.formData.vehiculo = undefined;
     }
@@ -134,7 +136,6 @@ export class SalesFormComponent implements OnInit {
       return;
     }
 
-    // Preparar datos para envío
     const saleData = {
       id: this.formData.id,
       clienteId: this.selectedClientId,
@@ -147,7 +148,6 @@ export class SalesFormComponent implements OnInit {
       // Actualizar venta existente
       this.saleService.updateVenta(this.saleId, saleData).subscribe({
         next: () => {
-          console.log('Venta actualizada exitosamente');
           this.goBack();
         },
         error: (error: any) => {
@@ -158,7 +158,6 @@ export class SalesFormComponent implements OnInit {
       // Crear nueva venta
       this.saleService.createVenta(saleData).subscribe({
         next: () => {
-          console.log('Venta creada exitosamente');
           this.goBack();
         },
         error: (error: any) => {

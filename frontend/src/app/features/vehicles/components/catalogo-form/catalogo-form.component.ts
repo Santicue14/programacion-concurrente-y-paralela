@@ -54,10 +54,9 @@ export class CatalogoFormComponent implements OnInit {
 
     // Escuchar el evento 'fancybox.closed' globalmente
     document.addEventListener('fancybox.closed', () => {
-      console.log('Fancybox se ha cerrado.');
+
       // Actualizar la URL para evitar que el hash se quede en la URL
       window.history.replaceState({}, document.title, window.location.pathname);
-      console.log('URL después de cambiar: ', window.location.href);
     });
 
 

@@ -161,7 +161,6 @@ export class VehicleListComponent implements OnInit {
   }
   
   onEditVehicle(vehicle: Vehicle): void {
-    console.log(vehicle);
 	this.router.navigate([`/tasks/edit/${vehicle.id}`], { fragment: 'taskFormModal' });
 
 	// Llamar a Fancybox manualmente
@@ -190,7 +189,6 @@ export class VehicleListComponent implements OnInit {
     if (this.selectedVehicle) {
       this.vehicleService.deleteVehicle(this.selectedVehicle.id).subscribe(
         () => {
-          console.log('Vehículo borrado:', this.selectedVehicle);
 		  // Limpia el vehículo seleccionado
           this.selectedVehicle = null; 
           // Recarga los vehículos o actualiza la vista

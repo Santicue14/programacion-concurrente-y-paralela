@@ -28,7 +28,6 @@ export class AuthInterceptor implements HttpInterceptor {
 		});
 	  }
 
-      console.log('Interceptando petición:', clonedRequest.url);
 
 	  return next.handle(clonedRequest).pipe(
 		catchError((error: HttpErrorResponse) => {

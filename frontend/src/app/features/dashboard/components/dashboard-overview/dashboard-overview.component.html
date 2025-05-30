@@ -5,7 +5,7 @@
       <div class="header-title">
         <h1>
           <i class="fas fa-tachometer-alt"></i>
-          Dashboard del Negocio
+          Dashboard Santicue Motors
         </h1>
         <p class="header-subtitle">Resumen ejecutivo y análisis de ventas</p>
       </div>
@@ -22,64 +22,16 @@
     </div>
   </div>
 
-  <!-- Filters Section -->
-  <div class="filters-section">
-    <div class="filters-container">
-      <div class="filter-group">
-        <label for="period">Período:</label>
-        <select id="period" class="form-control" [(ngModel)]="filters.period" (change)="onPeriodChange()">
-          <option *ngFor="let option of periodOptions" [value]="option.value">
-            {{ option.label }}
-          </option>
-        </select>
-      </div>
-
-      <div class="filter-group">
-        <label for="startDate">Fecha Inicio:</label>
-        <input 
-          type="date" 
-          id="startDate" 
-          class="form-control" 
-          [(ngModel)]="filters.startDate" 
-          (change)="onDateRangeChange()"
-        />
-      </div>
-
-      <div class="filter-group">
-        <label for="endDate">Fecha Fin:</label>
-        <input 
-          type="date" 
-          id="endDate" 
-          class="form-control" 
-          [(ngModel)]="filters.endDate" 
-          (change)="onDateRangeChange()"
-        />
-      </div>
-
-      <div class="filter-group">
-        <label for="vehicleBrand">Marca:</label>
-        <select id="vehicleBrand" class="form-control" [(ngModel)]="filters.vehicleBrand" (change)="onBrandChange()">
-          <option value="">Todas las marcas</option>
-          <option *ngFor="let brand of vehicleBrands" [value]="brand">
-            {{ brand }}
-          </option>
-        </select>
-      </div>
-
-      <div class="filter-actions">
-        <button class="btn btn-outline" (click)="clearFilters()">
-          <i class="fas fa-times"></i>
-          Limpiar
-        </button>
-      </div>
-    </div>
-  </div>
-
   <!-- Stats Cards Section -->
   <div class="stats-section">
     <app-stats-cards 
       [stats]="dashboardStats" 
-      [loading]="statsLoading">
+      [totalSalesLoading]="totalSalesLoading"
+      [totalRevenueLoading]="totalRevenueLoading"
+      [totalClientsLoading]="totalClientsLoading"
+      [totalVehiclesLoading]="totalVehiclesLoading"
+      [salesThisMonthLoading]="salesThisMonthLoading"
+      [revenueThisMonthLoading]="revenueThisMonthLoading">
     </app-stats-cards>
   </div>
 
@@ -151,17 +103,10 @@
     <app-sales-analytics 
       [analytics]="salesAnalytics" 
       [recentSales]="recentSales"
-      [loading]="analyticsLoading || recentSalesLoading">
+      [loading]="isAnalyticsLoading || recentSalesLoading">
     </app-sales-analytics>
   </div>
 
-  <!-- Date Range Info -->
-  <div class="info-section" *ngIf="hasDateRange">
-    <div class="info-card">
-      <i class="fas fa-info-circle"></i>
-      <span>
-        Mostrando datos desde {{ formatDate(filters.startDate!) }} hasta {{ formatDate(filters.endDate!) }}
-      </span>
-    </div>
+
+
   </div>
-</div> 

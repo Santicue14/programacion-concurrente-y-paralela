@@ -44,11 +44,13 @@ export class SaleService {
   // Crear venta
   createVenta(venta: any): Observable<any> {
     const token = localStorage.getItem('access_token');
+    const idCliente = venta.clienteId;
+    const idVehiculo = venta.vehiculoId;
     if (!token) { 
       this.router.navigate(['/login']);
     }
     const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
-    return this.http.post<any>(this.apiUrl, venta, { headers });
+    return this.http.post<any>(this.apiUrl, {clientId: parseInt(idCliente), vehicleId: parseInt(idVehiculo)}, { headers });
   }
 
   // Actualizar venta

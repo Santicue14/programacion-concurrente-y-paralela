@@ -109,4 +109,15 @@ public class VehiculoController : ControllerBase
         if (!deleted) return NotFound();
         return NoContent();
     }
+
+    /// <summary>
+    /// Obtiene el numero total de vehiculos
+    /// </summary>
+    /// <returns>Numero total de vehiculos</returns>
+    [HttpGet("total-vehicles")]
+    public async Task<int> GetTotalVehiclesAsync()
+    {
+        return await _vehiculoService.GetTotalVehiclesAsync();
+    }
+    
 }

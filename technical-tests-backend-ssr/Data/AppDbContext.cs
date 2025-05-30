@@ -60,6 +60,7 @@ public class AppDbContext : DbContext
     /// </summary>
     public DbSet<Usuario> Usuarios { get; set; }
 
+    /// <summary>
     /// Método para configurar el modelo de la base de datos.
     /// </summary>
     /// <param name="modelBuilder"></param>

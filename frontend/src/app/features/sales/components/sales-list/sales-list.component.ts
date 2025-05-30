@@ -177,7 +177,6 @@ export class SalesListComponent implements OnInit {
   }
   
   onEditSale(sale: Sale): void {
-    console.log(sale);
     this.router.navigate([`/sales/edit/${sale.id}`], { fragment: 'taskFormModal' });
   }     
   
@@ -197,7 +196,6 @@ export class SalesListComponent implements OnInit {
     if (this.selectedSale) {
       this.saleService.deleteVenta(this.selectedSale.id).subscribe(
         () => {
-          console.log('Venta borrada:', this.selectedSale);
           // Limpia la venta seleccionada
           this.selectedSale = null; 
           // Recarga las ventas o actualiza la vista

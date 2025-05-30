@@ -1,7 +1,7 @@
 <div class="container form-container">
-  <h2>{{ formTitle }}</h2>
-
+  
   <form (ngSubmit)="onSubmit()">
+    <h2>{{ formTitle }}</h2>
     <div class="form-grid">
       <!-- Selección de Cliente -->
       <div class="form-group full-width">
@@ -54,27 +54,7 @@
         />
       </div>
 
-
-      <!-- Información del Cliente Seleccionado -->
-      <div class="form-group full-width" *ngIf="formData.cliente">
-        <div class="info-card">
-          <h6>Cliente Seleccionado:</h6>
-          <p><strong>{{ formData.cliente.nombre }} {{ formData.cliente.apellido }}</strong></p>
-          <p>Email: {{ formData.cliente.email }}</p>
-          <p>Teléfono: {{ formData.cliente.telefono }}</p>
-        </div>
-      </div>
-
-      <!-- Información del Vehículo Seleccionado -->
-      <div class="form-group full-width" *ngIf="formData.vehiculo">
-        <div class="info-card">
-          <h6>Vehículo Seleccionado:</h6>
-          <p><strong>{{ formData.vehiculo.marca }} {{ formData.vehiculo.modelo }}</strong></p>
-          <p>Año: {{ formData.vehiculo.anio }}</p>
-          <p>Precio: {{ formData.vehiculo.precio | currency:'USD':'symbol':'1.2-2' }}</p>
-          <p>Stock disponible: {{ formData.vehiculo.stock }}</p>
-        </div>
-      </div>
+      
 
       <!-- Botones de acción -->
       <div class="form-group btns-actions full-width">
@@ -91,4 +71,27 @@
       </div>
     </div>
   </form>
+  <div class="detalle-venta">
+    <h6>Detalle de la venta</h6>
+    <!-- Información del Cliente Seleccionado -->
+    <div class="form-group full-width" >
+      <div class="info-card">
+      <h6>Cliente Seleccionado:</h6>
+      <p><strong>{{ formData.cliente?.nombre || 'No se ha seleccionado un cliente' }} {{ formData.cliente?.apellido || '' }}</strong></p>
+      <p>Email: {{ formData.cliente?.email || 'No se ha seleccionado un cliente' }}</p>
+      <p>Teléfono: {{ formData.cliente?.telefono || 'No se ha seleccionado un cliente' }}</p>
+    </div>
+  </div>
+
+  <!-- Información del Vehículo Seleccionado -->
+  <div class="form-group full-width" >
+    <div class="info-card">
+      <h6>Vehículo:</h6>
+      <p><strong>{{ formData.vehiculo?.marca || 'No se ha seleccionado un vehículo' }} {{ formData.vehiculo?.modelo || '' }}</strong></p>
+      <p>Año: {{ formData.vehiculo?.anio || 'No se ha seleccionado un vehículo' }}</p>
+      <p>Precio: {{ formData.vehiculo?.precio | currency:'ARS':'symbol':'1.2-2' }}</p>
+      <p>Stock disponible: {{ formData.vehiculo?.stock }}</p>
+    </div>
+  </div>
+  </div>
 </div>

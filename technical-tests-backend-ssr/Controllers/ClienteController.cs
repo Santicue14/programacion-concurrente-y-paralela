@@ -121,4 +121,16 @@ public class ClienteController : ControllerBase
         if (!deleted) return NotFound();
         return NoContent();
     }
+
+    /// <summary>
+    /// Obtener el numero total de clientes
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("total-clients")]
+    public async Task<int> GetTotalClientsAsync()
+    {
+        return await _clienteService.GetTotalClientsAsync();
+    }
+
+    
 }

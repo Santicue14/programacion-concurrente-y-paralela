@@ -83,7 +83,6 @@ export class LoginComponent implements OnInit {
           this.errorMessage = err.error.message;
         } else {
           this.errorMessage = 'Error al autenticar. Intente nuevamente.';
-          console.log(this.errorMessage);
         }
         this.isLoading = false;
       },

@@ -94,4 +94,14 @@ public class ClienteService
     {
         return await _clienteRepository.ExistsByEmailAsync(email);
     }
+
+    /// <summary>
+    /// Obtiene el numero total de clientes
+    /// </summary>
+    /// <returns></returns>
+    public async Task<int> GetTotalClientsAsync()
+    {
+        var clientes = await this.GetAllClientsAsync();
+        return clientes.Count();
+    }
 }

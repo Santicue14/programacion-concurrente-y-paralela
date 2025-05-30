@@ -1,22 +1,28 @@
 /* Estilos generales para el formulario */
 .form-container {
-  max-width: 800px;
-  margin: 2rem auto;
+  width: 100%;
+  margin: 3rem auto 2.5rem;
   padding: 2rem;
   background: #ffffff;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  gap: 1.5rem;
 }
 
 .form-container h2 {
   color: #333;
   margin-bottom: 1rem;
   font-weight: 600;
+  width: 100%;
 }
-
+form, .detalle-venta {
+  width: 50%;
+}
 .form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+
   gap: 1.5rem;
 }
 

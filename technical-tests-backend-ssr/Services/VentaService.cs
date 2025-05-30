@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using technical_tests_backend_ssr.Services;
 
+
 namespace technical_tests_backend_ssr.Services;
 
 /// <summary>
@@ -179,5 +180,116 @@ public class VentaService
 
         await _ventaRepository.DeleteAsync(id);
         return true;
+    }
+
+
+    /// <summary>
+    /// Obtiene el número total de ventas
+    /// </summary>
+    /// <returns>Cantidad de ventas</returns>
+    public async Task<int> GetTotalSalesAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        return ventas.Count();
+    }
+
+    /// <summary>
+    /// Obtiene el total de ingresos
+    /// </summary>
+    /// <returns>Total de ingresos</returns>
+    public async Task<decimal> GetTotalRevenueAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        return ventas.AsParallel().Sum(v => v.Total);
+    }
+
+    /// <summary>
+    /// Obtiene el total de ventas del mes actual
+    /// </summary>
+    /// <returns>Total de ventas del mes actual</returns>
+    public async Task<int> GetSalesThisMonthAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        return ventas.AsParallel().Where(v => v.Fecha.Month == DateTime.Now.Month && v.Fecha.Year == DateTime.Now.Year).Count();
+    }
+
+    /// <summary>
+    /// Obtiene el total de ingresos del mes actual
+    /// </summary>
+    /// <returns>Total de ingresos del mes actual</returns>
+    public async Task<decimal> GetRevenueThisMonthAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        return ventas.AsParallel().Where(v => v.Fecha.Month == DateTime.Now.Month && v.Fecha.Year == DateTime.Now.Year).Sum(v => v.Total);
+    }
+
+    /// <summary>
+    /// Obtiene las 5 marcas más vendidas con su respectivo total de ventas y porcentaje de ventas
+    /// </summary>
+    /// <returns>Ventas por marca</returns>
+    public async Task<IEnumerable<Object>> GetSalesByBrandAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        var totalVentas = await this.GetTotalRevenueAsync();
+        var vehiculos = await _vehiculoService.GetAllAsync();
+
+        var marcas = vehiculos.AsParallel().Select(v => v.Marca).Distinct().ToList();
+
+        var ventasPorMarca = marcas
+        .AsParallel()
+        .Select(m => new
+        {
+            Marca = m,
+            Total = ventas.AsParallel().Where(v => v.Vehiculo.Marca == m).Sum(v => v.Total),
+            Porcentaje = (ventas.AsParallel().Where(v => v.Vehiculo.Marca == m).Sum(v => v.Total) / totalVentas) * 100
+        })
+        .OrderByDescending(v => v.Total)
+        .Take(5)
+        .ToList();
+
+        return ventasPorMarca;
+    }
+
+    /// <summary>
+    /// Obtiene las 10 modelos más vendidos con su respectivo total de ventas y porcentaje de ventas
+    /// </summary>
+    /// <returns>Ventas por modelo</returns>
+    public async Task<IEnumerable<Object>> GetSalesByModelAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+
+        var vehiculos = await _vehiculoService.GetAllAsync();
+        var modelos = vehiculos.AsParallel().Select(v => v.Modelo).Distinct().ToList();
+
+        var totalVentas = await this.GetTotalRevenueAsync();
+        var ventasPorModelo = ventas.AsParallel().GroupBy(v => v.Vehiculo.Modelo).Select(g => new {
+            Modelo = g.Key,
+            Total = g.Sum(v => v.Total),
+            Porcentaje = (g.Sum(v => v.Total) / totalVentas) * 100
+        }).ToList();
+
+        var ventasConMarcaYModelo = ventas
+            .AsParallel()
+            .Select(v => new
+            {
+                Marca = v.Vehiculo.Marca,
+                Modelo = modelos.FirstOrDefault(m => m == v.Vehiculo.Modelo),
+                CantidadVentas = ventas.AsParallel().Where(v => v.Vehiculo.Modelo == v.Vehiculo.Modelo).Count(),
+                Porcentaje = (v.Total / totalVentas) * 100
+        })
+        .OrderByDescending(v => v.CantidadVentas)
+        .Take(10)
+        .ToList();
+        return ventasConMarcaYModelo;
+    }
+
+    /// <summary>
+    /// Obtiene las últimas 5 ventas
+    /// </summary>
+    /// <returns>Últimas 5 ventas</returns>
+    public async Task<IEnumerable<VentaDTO>> GetLastSalesAsync()
+    {
+        var ventas = await this.GetAllVentasAsync();
+        return ventas.AsParallel().OrderByDescending(v => v.Fecha).Take(5).ToList();
     }
 }

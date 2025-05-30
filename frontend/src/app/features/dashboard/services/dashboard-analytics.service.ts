@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { finalize, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
 export interface DashboardStats {
-  totalSales: number;
-  totalRevenue: number;
-  totalClients: number;
-  totalVehicles: number;
-  salesThisMonth: number;
-  revenueThisMonth: number;
-  averageTicket: number;
-  conversionRate: number;
+  totalSales: number | null;
+  totalRevenue: number | null;
+  totalClients: number | null;
+  totalVehicles: number | null;
+  salesThisMonth: number | null;
+  revenueThisMonth: number | null;
 }
 
 export interface SalesAnalytics {
@@ -37,19 +35,16 @@ export interface MonthlySales {
 }
 
 export interface BrandSales {
-  brand: string;
-  sales: number;
-  revenue: number;
-  percentage: number;
+  marca: string;
+  total: number;
+  porcentaje: number;
 }
 
 export interface TopVehicle {
   id: number;
-  brand: string;
-  model: string;
-  year: number;
-  salesCount: number;
-  revenue: number;
+  marca: string;
+  modelo: string;
+  cantidadVentas: number;
 }
 
 export interface SalesTrend {
@@ -60,11 +55,17 @@ export interface SalesTrend {
 
 export interface RecentSale {
   id: number;
-  clientName: string;
-  vehicleBrand: string;
-  vehicleModel: string;
-  amount: number;
-  date: string;
+  cliente: {
+    nombre: string;
+    apellido: string;
+    email: string;
+  };
+  vehiculo: {
+    marca: string;
+    modelo: string;
+    precio: number;
+  };
+  fecha: string;
 }
 
 export interface AnalyticsFilters {
@@ -79,8 +80,14 @@ export interface AnalyticsFilters {
   providedIn: 'root'
 })
 export class DashboardAnalyticsService {
-  private apiUrl = `${environment.apiBaseUrl}/api/Analytics`;
+  private apiUrl = `${environment.apiBaseUrl}/api`;
 
+  public isLoadingTotalSales: boolean = false;
+  public isLoadingTotalRevenue: boolean = false;
+  public isLoadingTotalClients: boolean = false;
+  public isLoadingTotalVehicles: boolean = false;
+  public isLoadingSalesThisMonth: boolean = false;
+  public isLoadingRevenueThisMonth: boolean = false;
   constructor(private http: HttpClient, private router: Router) { }
 
   private getAuthHeaders(): HttpHeaders {
@@ -92,27 +99,58 @@ export class DashboardAnalyticsService {
     return new HttpHeaders().set('Authorization', `Bearer ${token}`);
   }
 
-  // Get dashboard overview statistics
-  getDashboardStats(filters?: AnalyticsFilters): Observable<DashboardStats> {
-    const headers = this.getAuthHeaders();
-    let params = new HttpParams();
-    
-    if (filters) {
-      if (filters.startDate) params = params.set('startDate', filters.startDate);
-      if (filters.endDate) params = params.set('endDate', filters.endDate);
-      if (filters.vehicleBrand) params = params.set('vehicleBrand', filters.vehicleBrand);
-      if (filters.clientId) params = params.set('clientId', filters.clientId.toString());
-    }
-
-    // For now, return mock data until backend is ready
-    return this.getMockDashboardStats();
-    
-    // Uncomment when backend is ready:
-    // return this.http.get<DashboardStats>(`${this.apiUrl}/dashboard-stats`, { headers, params });
+  getTotalSales(): Observable<number> {
+    this.isLoadingTotalSales = true;
+    return this.http.get<number>(`${this.apiUrl}/Venta/total-sales`, { headers: this.getAuthHeaders() }).pipe(
+      finalize(() => this.isLoadingTotalSales = false)
+    );
   }
 
-  // Get sales analytics data
-  getSalesAnalytics(filters?: AnalyticsFilters): Observable<SalesAnalytics> {
+  getTotalRevenue(): Observable<number> {
+    this.isLoadingTotalRevenue = true;
+    return this.http.get<number>(`${this.apiUrl}/Venta/total-revenue`, { headers: this.getAuthHeaders() }).pipe(
+      finalize(() => this.isLoadingTotalRevenue = false)
+    );
+  }
+
+  getTotalClients(): Observable<number> {
+    this.isLoadingTotalClients = true;
+    return this.http.get<number>(`${this.apiUrl}/Cliente/total-clients`, { headers: this.getAuthHeaders() }).pipe(
+      finalize(() => this.isLoadingTotalClients = false)
+    );
+  }
+
+  getTotalVehicles(): Observable<number> {
+    this.isLoadingTotalVehicles = true;   
+    return this.http.get<number>(`${this.apiUrl}/Vehiculo/total-vehicles`, { headers: this.getAuthHeaders() }).pipe(
+      finalize(() => this.isLoadingTotalVehicles = false)
+    );
+  }
+
+  getSalesThisMonth(): Observable<number> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<number>(`${this.apiUrl}/Venta/sales-this-month`, { headers }).pipe(
+      finalize(() => this.isLoadingSalesThisMonth = false)
+    );
+  }
+
+  getRevenueThisMonth(): Observable<number> {
+    const headers = this.getAuthHeaders();
+    return this.http.get<number>(`${this.apiUrl}/Venta/revenue-this-month`, { headers }).pipe(
+      finalize(() => this.isLoadingRevenueThisMonth = false)
+    );
+  }
+
+
+  getSalesByBrand(): Observable<BrandSales[]> {
+    return this.http.get<BrandSales[]>(`${this.apiUrl}/Venta/sales-by-brand`, { headers: this.getAuthHeaders() });
+  }
+
+  getTopSellingVehicles(): Observable<TopVehicle[]> {
+    return this.http.get<TopVehicle[]>(`${this.apiUrl}/Venta/sales-by-model`, { headers: this.getAuthHeaders() });
+  }
+
+  getSalesTrend(filters?: AnalyticsFilters): Observable<SalesTrend> {
     const headers = this.getAuthHeaders();
     let params = new HttpParams();
     
@@ -120,26 +158,19 @@ export class DashboardAnalyticsService {
       if (filters.startDate) params = params.set('startDate', filters.startDate);
       if (filters.endDate) params = params.set('endDate', filters.endDate);
       if (filters.period) params = params.set('period', filters.period);
-      if (filters.vehicleBrand) params = params.set('vehicleBrand', filters.vehicleBrand);
     }
 
     // For now, return mock data until backend is ready
-    return this.getMockSalesAnalytics();
+    const mockSalesTrend: SalesTrend = { period: 'Este mes', growth: 15.3, trend: 'up' };
+    return of(mockSalesTrend);
     
     // Uncomment when backend is ready:
-    // return this.http.get<SalesAnalytics>(`${this.apiUrl}/sales-analytics`, { headers, params });
+    // return this.http.get<SalesTrend>(`${this.apiUrl}/Analytics/sales-trend`, { headers, params });
   }
 
   // Get recent sales
   getRecentSales(limit: number = 10): Observable<RecentSale[]> {
-    const headers = this.getAuthHeaders();
-    const params = new HttpParams().set('limit', limit.toString());
-
-    // For now, return mock data until backend is ready
-    return this.getMockRecentSales();
-    
-    // Uncomment when backend is ready:
-    // return this.http.get<RecentSale[]>(`${this.apiUrl}/recent-sales`, { headers, params });
+    return this.http.get<RecentSale[]>(`${this.apiUrl}/Venta/last-sales`, { headers: this.getAuthHeaders()});
   }
 
   // Get sales comparison data
@@ -148,68 +179,20 @@ export class DashboardAnalyticsService {
     const params = new HttpParams().set('period', period);
 
     // For now, return mock data until backend is ready
-    return this.getMockSalesComparison();
+    return of(this.getMockSalesComparisonData());
     
     // Uncomment when backend is ready:
-    // return this.http.get<any>(`${this.apiUrl}/sales-comparison`, { headers, params });
+    // return this.http.get<any>(`${this.apiUrl}/Analytics/sales-comparison`, { headers, params });
   }
 
-  // Mock data methods (remove when backend is ready)
-  private getMockDashboardStats(): Observable<DashboardStats> {
-    const mockStats: DashboardStats = {
-      totalSales: 156,
-      totalRevenue: 2450000,
-      totalClients: 89,
-      totalVehicles: 45,
-      salesThisMonth: 23,
-      revenueThisMonth: 385000,
-      averageTicket: 15705,
-      conversionRate: 68.5
-    };
-    return of(mockStats);
-  }
 
-  private getMockSalesAnalytics(): Observable<SalesAnalytics> {
-    const mockAnalytics: SalesAnalytics = {
-      dailySales: this.generateMockDailySales(),
-      monthlySales: this.generateMockMonthlySales(),
-      salesByVehicleBrand: [
-        { brand: 'Toyota', sales: 45, revenue: 720000, percentage: 28.8 },
-        { brand: 'Honda', sales: 38, revenue: 608000, percentage: 24.4 },
-        { brand: 'Ford', sales: 32, revenue: 512000, percentage: 20.5 },
-        { brand: 'Chevrolet', sales: 25, revenue: 400000, percentage: 16.0 },
-        { brand: 'Nissan', sales: 16, revenue: 256000, percentage: 10.3 }
-      ],
-      topSellingVehicles: [
-        { id: 1, brand: 'Toyota', model: 'Corolla', year: 2023, salesCount: 12, revenue: 240000 },
-        { id: 2, brand: 'Honda', model: 'Civic', year: 2023, salesCount: 10, revenue: 220000 },
-        { id: 3, brand: 'Ford', model: 'Focus', year: 2022, salesCount: 8, revenue: 160000 },
-        { id: 4, brand: 'Chevrolet', model: 'Cruze', year: 2023, salesCount: 7, revenue: 140000 },
-        { id: 5, brand: 'Nissan', model: 'Sentra', year: 2022, salesCount: 6, revenue: 120000 }
-      ],
-      salesTrend: { period: 'Este mes', growth: 15.3, trend: 'up' }
-    };
-    return of(mockAnalytics);
-  }
 
-  private getMockRecentSales(): Observable<RecentSale[]> {
-    const mockSales: RecentSale[] = [
-      { id: 1, clientName: 'Juan Pérez', vehicleBrand: 'Toyota', vehicleModel: 'Corolla', amount: 20000, date: '2024-01-15' },
-      { id: 2, clientName: 'María García', vehicleBrand: 'Honda', vehicleModel: 'Civic', amount: 22000, date: '2024-01-14' },
-      { id: 3, clientName: 'Carlos López', vehicleBrand: 'Ford', vehicleModel: 'Focus', amount: 18500, date: '2024-01-13' },
-      { id: 4, clientName: 'Ana Martínez', vehicleBrand: 'Chevrolet', vehicleModel: 'Cruze', amount: 19500, date: '2024-01-12' },
-      { id: 5, clientName: 'Luis Rodríguez', vehicleBrand: 'Nissan', vehicleModel: 'Sentra', amount: 17800, date: '2024-01-11' }
-    ];
-    return of(mockSales);
-  }
-
-  private getMockSalesComparison(): Observable<any> {
-    const mockComparison = {
+  private getMockSalesComparisonData(): any {
+    return {
       current: { period: 'Este mes', sales: 23, revenue: 385000 },
       previous: { period: 'Mes anterior', sales: 20, revenue: 334000 },
       growth: { sales: 15.0, revenue: 15.3 }
     };
-    return of(mockComparison);
   }
 
   private generateMockDailySales(): DailySales[] {

@@ -33,13 +33,4 @@ public class DashboardStatsDTO
     /// </summary>
     public decimal RevenueThisMonth { get; set; }
 
-    /// <summary>
-    /// Ticket promedio por venta
-    /// </summary>
-    public decimal AverageTicket { get; set; }
-
-    /// <summary>
-    /// Tasa de conversión en porcentaje
-    /// </summary>
-    public decimal ConversionRate { get; set; }
 } 

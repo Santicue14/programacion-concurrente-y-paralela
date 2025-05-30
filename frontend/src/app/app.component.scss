@@ -2,7 +2,8 @@
 main {
   display: flex;
   justify-content: center;
-  padding: 20px;
+  width: 100%;
+  min-height: 100vh;
 }
 
 // Navbar styling

@@ -129,4 +129,14 @@ public class VehiculoService
         await _vehiculoRepository.DeleteAsync(id);
         return true;
     }
+
+    /// <summary>
+    /// Obtiene el numero total de vehiculos
+    /// </summary>
+    /// <returns>Numero total de vehiculos</returns>
+    public async Task<int> GetTotalVehiclesAsync()
+    {
+        var vehiculos = await this.GetAllAsync();
+        return vehiculos.AsParallel().Count();
+    }
 }

@@ -56,9 +56,9 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
 
     // Prepare brand sales chart data
     this.brandChartData = {
-      labels: this.analytics.salesByVehicleBrand.map(brand => brand.brand),
+      labels: this.analytics.salesByVehicleBrand.map(marca => marca.marca),
       datasets: [{
-        data: this.analytics.salesByVehicleBrand.map(brand => brand.sales),
+        data: this.analytics.salesByVehicleBrand.map(marca => marca.total),
         backgroundColor: [
           '#4a90e2',
           '#28a745',
@@ -68,6 +68,8 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
         ]
       }]
     };
+
+    this.loading = false;
   }
 
   formatDate(dateString: string): string {
@@ -81,7 +83,7 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
   formatCurrency(value: number): string {
     return new Intl.NumberFormat('es-ES', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'ARS',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0
     }).format(value);
@@ -126,15 +128,10 @@ export class SalesAnalyticsComponent implements OnInit, OnChanges {
     return `${(sales / max) * 100}%`;
   }
 
-  getRevenueBarWidth(revenue: number): string {
-    const max = this.getMaxRevenue();
-    return `${(revenue / max) * 100}%`;
-  }
-
-  getBrandBarWidth(sales: number): string {
-    if (!this.analytics?.salesByVehicleBrand) return '0%';
-    const max = Math.max(...this.analytics.salesByVehicleBrand.map(brand => brand.sales));
-    return `${(sales / max) * 100}%`;
+  getBrandBarWidth(total: number): string {
+    if (!this.analytics?.salesByVehicleBrand?.length) return '0%';
+    const max = Math.max(...this.analytics.salesByVehicleBrand.map(marca => marca.total));
+    return `${(total / max) * 100}%`;
   }
 
   getBrandColor(index: number): string {

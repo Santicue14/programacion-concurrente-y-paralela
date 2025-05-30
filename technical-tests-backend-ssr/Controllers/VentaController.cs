@@ -62,34 +62,31 @@ public class VentaController : ControllerBase
     /// <summary>
     /// Agregar una nueva venta    
     /// </summary>
-    /// <param name="clientId"></param>
-    /// <param name="vehicleId"></param>
+    /// <param name="request">Objeto con clientId y vehicleId</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<ActionResult<VentaDTO>> Create(int clientId, int vehicleId)
+    public async Task<ActionResult<VentaDTO>> Create([FromBody] CreateVentaRequest request)
     {
-        //Lo que tiene que recibir son los ID de cliente y vehiculo
-
         // FluentValidation se hace automáticamente al verificar ModelState.IsValid.
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
 
-        var cliente = await _clienteService.GetClientByIdAsync(clientId);
+        var cliente = await _clienteService.GetClientByIdAsync(request.ClientId);
         if (cliente == null)
         {
             return NotFound("El cliente no existe.");
         }
-        var vehiculo = await _vehiculoService.GetVehicleByIdAsync(vehicleId);
+        var vehiculo = await _vehiculoService.GetVehicleByIdAsync(request.VehicleId);
         if (vehiculo == null)
         {
             return NotFound("El vehiculo no existe.");
         }
         var venta = new Venta
         {
-            ClienteId = clientId,
-            VehiculoId = vehicleId,
+            ClienteId = request.ClientId,
+            VehiculoId = request.VehicleId,
             Total = vehiculo.Precio
         };
 
@@ -139,4 +136,74 @@ public class VentaController : ControllerBase
         if (!deleted) return NotFound();
         return NoContent();
     }
+
+    /// <summary>
+    /// Obtiene el número total de ventas
+    /// </summary>
+    /// <returns>Total de ventas</returns>
+    [HttpGet("total-sales")]
+    public async Task<int> GetTotalSalesAsync()
+    {
+        return await _ventaService.GetTotalSalesAsync();
+    }
+
+    /// <summary>
+    /// Obtiene el total de ingresos
+    /// </summary>
+    /// <returns>Total de ingresos</returns>
+    [HttpGet("total-revenue")]
+    public async Task<decimal> GetTotalRevenueAsync()
+    {
+        return await _ventaService.GetTotalRevenueAsync();
+    }
+
+    /// <summary>
+    /// Obtiene el total de ventas del mes actual
+    /// </summary>
+    /// <returns>Total de ventas del mes actual</returns>
+    [HttpGet("sales-this-month")]
+    public async Task<int> GetSalesThisMonthAsync()
+    {
+        return await _ventaService.GetSalesThisMonthAsync();
+    }
+
+    /// <summary>
+    /// Obtiene el total de ingresos del mes actual
+    /// </summary>
+    /// <returns>Total de ingresos del mes actual</returns>
+    [HttpGet("revenue-this-month")]
+    public async Task<decimal> GetRevenueThisMonthAsync()
+    {
+        return await _ventaService.GetRevenueThisMonthAsync();
+    }
+    
+    /// <summary>
+    /// Obtiene las 5 marcas más vendidas con su respectivo total de ventas y porcentaje de ventas
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("sales-by-brand")]
+    public async Task<IEnumerable<Object>> GetSalesByBrandAsync()
+    {
+        return await _ventaService.GetSalesByBrandAsync();
+    }
+
+    /// <summary>
+    /// Obtiene las 10 modelos más vendidos con su respectivo total de ventas y porcentaje de ventas
+    /// </summary>
+    /// <returns>VentaDTO</returns>
+    [HttpGet("sales-by-model")]
+    public async Task<IEnumerable<Object>> GetSalesByModelAsync()
+    {
+        return await _ventaService.GetSalesByModelAsync();
+    }
+    /// <summary>
+    /// Obtener últimas 5 ventas
+    /// </summary>
+    /// <returns>Últimas 5 ventas</returns>
+    [HttpGet("last-sales")]
+    public async Task<IEnumerable<VentaDTO>> GetLastSalesAsync()
+    {
+        return await _ventaService.GetLastSalesAsync();
+    }
 }
+
