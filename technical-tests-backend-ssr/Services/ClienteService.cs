@@ -23,9 +23,11 @@ public class ClienteService
     /// Retrieves all clients asynchronously.
     /// </summary>
     /// <returns></returns>
-    public Task<IEnumerable<Cliente>> GetAllClientsAsync()
+    public async Task<IEnumerable<Cliente>> GetAllClientsAsync()
     {
-        return _clienteRepository.GetAllAsync();
+        var clientes = await _clienteRepository.GetAllAsync();
+        if (clientes == null) throw new UserNotFoundException();
+        return clientes;
     }
 
     /// <summary>
@@ -35,7 +37,9 @@ public class ClienteService
     /// <returns></returns>
     public Task<Cliente?> GetClientByIdAsync(int id)
     {
-        return _clienteRepository.GetByIdAsync(id);
+        var cliente = _clienteRepository.GetByIdAsync(id);
+        if (cliente == null) throw new UserNotFoundException();
+        return cliente;
     }
 
 
@@ -57,6 +61,8 @@ public class ClienteService
     /// <returns></returns>
     public async Task<Cliente> UpdateClientAsync(Cliente cliente)
     {
+        var existingClient = await _clienteRepository.GetByIdAsync(cliente.Id);
+        if (existingClient == null) throw new UserNotFoundException();
         await _clienteRepository.UpdateAsync(cliente);
         return cliente;
     }
@@ -69,7 +75,7 @@ public class ClienteService
     public async Task<bool> DeleteClientAsync(int id)
     {
         var existingClient = await _clienteRepository.GetByIdAsync(id);
-        if (existingClient == null) return false;
+        if (existingClient == null) throw new UserNotFoundException();
 
         await _clienteRepository.DeleteAsync(id);
         return true;
@@ -82,7 +88,9 @@ public class ClienteService
     /// <returns></returns>
     public async Task<bool> ExistsByTelefonoAsync(string telefono)
     {
-        return await _clienteRepository.ExistsByTelefonoAsync(telefono);
+        var exists = await _clienteRepository.ExistsByTelefonoAsync(telefono);
+        if (!exists) throw new UserNotFoundException();
+        return exists;
     }
 
     /// <summary>
@@ -92,7 +100,9 @@ public class ClienteService
     /// <returns></returns>
     public async Task<bool> ExistsByEmailAsync(string email)
     {
-        return await _clienteRepository.ExistsByEmailAsync(email);
+        var exists = await _clienteRepository.ExistsByEmailAsync(email);
+        if (!exists) throw new UserNotFoundException();
+        return exists;
     }
 
     /// <summary>
